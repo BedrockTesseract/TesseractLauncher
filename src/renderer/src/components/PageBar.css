@@ -1,0 +1,91 @@
+.page-bar-main {
+    width: var(--page-bar-width);
+    height: 100%;
+    background-color: var(--oxford-blue);
+    border-radius: 10px;
+    border: 2px solid var(--rich-black);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.page-bar-main::-webkit-scrollbar {
+    width: 4px;
+}
+
+.page-bar-main::-webkit-scrollbar-thumb {
+    background-color: var(--rich-black);
+    border-radius: 4px;
+}
+
+.page-bar-buttons-container {
+    width: 100%;
+    height: 100%;
+}
+
+.selector-button {
+    width: 100%;
+    height: 40px;
+    background-color: var(--oxford-blue);
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s;
+    padding: 5px;
+}
+
+.selector-button-selected {
+    width: 100%;
+    height: 40px;
+    background-color: var(--rich-black);
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s;
+    padding: 5px;
+}
+
+.selector-button-items {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
+
+.selector-button-items > * {
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.selector-button-text {
+    color: var(--lavender-web);
+    font-family: 'JetBrainsMonoNL-Bold';
+    font-size: 14px;
+}
+
+.selector-button-icon {
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    image-rendering: optimizeQuality;
+    background-image: url("../assets/icons/gear.png");
+    filter: invert(100%);
+}
+
+.page-bar-buttons-container > *:nth-child(1) {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.page-bar-main > *:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.selector-button:hover {
+    filter: brightness(85%);
+    transition: filter 0.2s;
+}

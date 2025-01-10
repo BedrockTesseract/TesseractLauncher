@@ -1,0 +1,15 @@
+.circle-btn-container {
+    width: 20px;
+    height: 20px;
+    background-color: var(--oxford-blue);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 0.1s;
+}
+
+.circle-btn-container:hover {
+    filter: brightness(85%);
+    transition: filter 0.1s;
+}

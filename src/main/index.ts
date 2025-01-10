@@ -3,22 +3,29 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+var mainWindow: BrowserWindow | null = null;
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
+    frame: false,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
+      sandbox: false,
+      contextIsolation: false,
+      nodeIntegration: true,
+      webSecurity: false
+    },
+    minWidth: 980,
+    minHeight: 640
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow?.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -72,3 +79,23 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on("WINDOW_SIGNAL", (event, arg) => {
+    switch (arg) {
+        case "close":
+            mainWindow?.close();
+            break;
+
+        case "maximize":
+            if (mainWindow?.isMaximized()) {
+                mainWindow?.unmaximize();
+            } else {
+                mainWindow?.maximize();
+            }
+            break;
+
+        case "minimize":
+            mainWindow?.minimize();
+            break;
+    }
+});

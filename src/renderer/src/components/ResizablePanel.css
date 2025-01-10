@@ -1,0 +1,12 @@
+.resizable-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--oxford-blue);
+    border: 2px solid var(--rich-black);
+    border-radius: 10px;
+    box-sizing: border-box;
+}
