@@ -7,8 +7,9 @@ body {
     --charcoal: #324a5fff;
     --lavender-web: #ccc9dcff;
     --page-bar-width: 160px;
-    border-radius: 10px;
     overflow: hidden;
+    background-color: black;
+    
 }
 
 @font-face {
@@ -86,7 +87,6 @@ body {
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
 }
 
 .content {
@@ -116,21 +116,25 @@ body {
 .tpage-enter {
     opacity: 0;
     transform: translateY(40px);
+    filter: blur(20px);
 }
 
 .tpage-enter-active {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 300ms, transform 300ms;
+    filter: blur(0);
+    transition: opacity 300ms, transform 300ms, filter 300ms;
 }
 
 .tpage-exit {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
 }
 
 .tpage-exit-active {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 300ms, transform 300ms;
+    filter: blur(20px);
+    transition: opacity 300ms, transform 300ms, filter 300ms;
 }

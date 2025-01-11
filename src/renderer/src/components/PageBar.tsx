@@ -24,6 +24,8 @@ export default function PageBar({
     const nodeButtons = buttons?.map((button, index) => {
         return (
             <div key={`page-selector-button-${index}`} className={`selector-button${location.pathname === button.route ? "-selected" : ""}`} onClick={() => {
+                if (location.pathname === button.route)
+                    return;
                 setSelected(index);
                 navigate(button.route);
             }}>
@@ -37,6 +39,8 @@ export default function PageBar({
 
     const lastButtonNode = lastButton ? (
         <div key={`page-selector-button-${nodeButtons?.length ?? 0}`} className={`selector-button${location.pathname === lastButton?.route ? "-selected" : ""}`} onClick={() => {
+            if (location.pathname === lastButton.route)
+                return;
             setSelected((nodeButtons?.length ?? 0));
             navigate(lastButton.route);
         }}>
