@@ -13,6 +13,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     frame: false,
+    transparent: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
@@ -21,7 +22,7 @@ function createWindow(): void {
       webSecurity: false
     },
     minWidth: 980,
-    minHeight: 640
+    minHeight: 640,
   })
 
   mainWindow.on('ready-to-show', () => {
