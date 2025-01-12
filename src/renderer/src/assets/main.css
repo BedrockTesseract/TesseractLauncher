@@ -9,7 +9,15 @@ body {
     --page-bar-width: 160px;
     overflow: hidden;
     background-color: black;
-    
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--rich-black);
+    border-radius: 4px;
 }
 
 @font-face {

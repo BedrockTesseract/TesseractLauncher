@@ -9,6 +9,7 @@ export class Task {
     private _name: string;
     private _description: string;
     private _deterministic: boolean;
+    private _progress: number = 0;
     private _onTaskStart: TaskCallback[] = [];
     private _onTaskUpdate: TaskCallback[] = [];
     private _onTaskEnd: TaskCallback[] = [];
@@ -23,16 +24,18 @@ export class Task {
     }
 
     run() {
-        new Promise(async (resolve, reject) => {
+        new Promise<void>(async (resolve, reject) => {
             this._state = "running";
             try {
                 this._onTaskStart.forEach(async (x) => await x(this));
                 await this._task(this);
                 this._state = "finished";
                 this._onTaskEnd.forEach(async (x) => await x(this));
+                resolve();
             } catch (e) {
                 this._state = "error";
                 this._onTaskError.forEach(async (x) => await x(this));
+                reject();
             }
         });
     }
@@ -91,6 +94,10 @@ export class Task {
         return this._deterministic;
     }
 
+    getProgress() {
+        return this._progress;
+    }
+
     setName(name: string) {
         this._name = name;
         this.updateTask();
@@ -103,6 +110,11 @@ export class Task {
 
     setDeterministic(deterministic: boolean) {
         this._deterministic = deterministic;
+        this.updateTask();
+    }
+
+    setProgress(progress: number) {
+        this._progress = progress;
         this.updateTask();
     }
 }

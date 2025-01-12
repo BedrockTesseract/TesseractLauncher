@@ -3,19 +3,22 @@ import "./HomePage.css"
 import { useEffect } from "react";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import { Task } from "@renderer/core/Task";
+import { useTaskListState } from "@renderer/states/TaskListState";
 
 export default function HomePage(): JSX.Element | null {
     const launcherState = useLauncherState();
+    const taskListState = useTaskListState();
+
     useEffect(() => {
-        const task = new Task("Test Task", "This is a test task", false, async (task) => { 
-            await new Promise(r => setTimeout(r, 5000));
-            task.setName("Halfway");
-            await new Promise(r => setTimeout(r, 2000));
+        const task = new Task("Test Task", "This is a test task", true, async () => {
+            for (let i = 0; i < 100; i++) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+                task.setProgress(i / 100);
+            }
         });
-        launcherState.taskList?.addTask(task);
+        taskListState.addTask(task);
         task.run();
-        console.log("Test", launcherState.taskList)
-    }, [launcherState.taskList]);
+    }, [true]);
 
     return (
         <div className="home-page-container">

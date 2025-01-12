@@ -1,7 +1,10 @@
 .task-list {
     position: absolute;
     width: 300px;
-    height: 200px;
+    min-height: 50px;
+    max-height: 400px;
+    display: flex;
+    overflow-y: auto;
     background-color: var(--oxford-blue);
     border-radius: 10px;
     border: 2px solid var(--rich-black);
@@ -22,6 +25,7 @@
     font-size: 14px;
     color: var(--lavender-web);
     font-family: 'MainFont';
+    user-select: none;
 }
 
 .task-item-desc {
@@ -29,6 +33,15 @@
     color: var(--lavender-web);
     font-family: 'MainFont';
     filter: brightness(80%);
+    user-select: none;
+}
+
+.task-item-percent {
+    font-size: 10px;
+    color: var(--lavender-web);
+    font-family: 'MainFont';
+    filter: brightness(80%);
+    user-select: none;
 }
 
 .task-item {
