@@ -1,10 +1,11 @@
 body {
     --border-size: 15px;
+    --topbar-height: 35px;
 }
 
 .top-bar {
     width: 100vw;
-    height: 35px;
+    height: var(--topbar-height);
     background-color: var(--rich-black);
     border-bottom: var(--border-size) solid var(--rich-black);
     border-bottom-left-radius: 10px;
@@ -12,6 +13,7 @@ body {
     display: flex;  
     flex-direction: row;
     box-sizing: border-box;
+    z-index: 3;
 }
 
 .top-bar > * {

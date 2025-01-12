@@ -5,6 +5,7 @@
     border-radius: 10px;
     border: 2px solid var(--rich-black);
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;

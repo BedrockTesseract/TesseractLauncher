@@ -13,6 +13,8 @@ export class LauncherCore {
 
         return {
             keep_open: false,
+            show_launcher_logs: true,
+            show_game_logs: true,
             ...data
         };
     }

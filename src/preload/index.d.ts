@@ -5,5 +5,6 @@ declare global {
     electron: ElectronAPI
     api: unknown
     require: NodeRequire
+    openExternalLink: (url: string) => void
   }
 }

@@ -9,6 +9,9 @@ import VersionsPage from "./pages/VersionsPage"
 import { useTaskListState } from "./states/TaskListState"
 import { Task } from "./core/Task"
 import { useEffect } from "react"
+import LogsPage from "./pages/LogsPage"
+import { Logger } from "./utils/Logger"
+import { Version } from "./utils/Version"
 
 function App(): JSX.Element | null {
     const location = useLocation();
@@ -54,6 +57,7 @@ function App(): JSX.Element | null {
                 <TransitionGroup style={{ width: "100%", height: "100%" }}>
                     <CSSTransition key={location.key} timeout={300} classNames="tpage">
                         <div className="page-area">
+                            <div className="error-popup"/>
                             <Routes>
                                 <Route path="/" element={
                                     <HomePage />
@@ -63,6 +67,9 @@ function App(): JSX.Element | null {
                                 } />
                                 <Route path="/settings" element={
                                     <SettingsPage />
+                                } />
+                                <Route path="/logs" element={
+                                    <LogsPage />
                                 } />
                             </Routes>
                         </div>

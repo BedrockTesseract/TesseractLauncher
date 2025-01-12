@@ -1,0 +1,32 @@
+.error-popup {
+    position: absolute;
+    width: calc(100% - (var(--page-bar-width) + 20px));
+    height: auto;
+    min-height: 40px;
+    max-height: 30%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 10px;
+    background-color: var(--error-color);
+    animation: popIn 0.4s;
+    z-index: 0;
+}
+
+.error-popup-text {
+    font-size: 14px;
+    color: var(--lavender-web);
+    font-family: 'MainFont';
+    user-select: none;
+    padding: 5px;
+}
+
+@keyframes popIn {
+    from {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

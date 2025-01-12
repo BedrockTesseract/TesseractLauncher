@@ -7,13 +7,17 @@ import { BrowserRouter } from 'react-router'
 import { TransitionGroup } from 'react-transition-group'
 import { LauncherStateProvider } from './states/LauncherState'
 import { TaskListStateProvider } from './states/TaskListState'
+import { Logger } from './utils/Logger'
+import ErrorBoundary from './components/ErrorBoundary'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
-        <LauncherStateProvider>
-            <TaskListStateProvider>
-                <App/>
-            </TaskListStateProvider>
-        </LauncherStateProvider>
+        <ErrorBoundary>
+            <LauncherStateProvider>
+                <TaskListStateProvider>
+                    <App/>
+                </TaskListStateProvider>
+            </LauncherStateProvider>
+        </ErrorBoundary>
     </BrowserRouter>
 )

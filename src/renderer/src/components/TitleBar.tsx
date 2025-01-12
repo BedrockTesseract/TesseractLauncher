@@ -11,8 +11,8 @@ import { useTaskListState } from "@renderer/states/TaskListState";
 export default function TitleBar(): JSX.Element | null {
     const launcherState = useLauncherState();
     const taskListState = useTaskListState();
-    const [isTaskRunning, setIsTaskRunning] = useState<boolean>(true);
-    const [isTasksVisible, setIsTasksVisible] = useState<boolean>(true);
+    const [isTaskRunning, setIsTaskRunning] = useState<boolean>(false);
+    const [isTasksVisible, setIsTasksVisible] = useState<boolean>(false);
 
     useEffect(() => {
         const onTaskAny = (task: Task) => {

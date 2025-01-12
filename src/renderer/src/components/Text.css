@@ -1,0 +1,6 @@
+.text-main {
+    font-size: 16px;
+    color: var(--lavender-web);
+    font-family: 'MainFont';
+    user-select: none;
+}
