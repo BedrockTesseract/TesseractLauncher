@@ -9,7 +9,7 @@ body {
     border-bottom: var(--border-size) solid var(--rich-black);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    display: flex;
+    display: flex;  
     flex-direction: row;
     box-sizing: border-box;
 }
@@ -21,6 +21,10 @@ body {
 .top-bar > .drag-region {
     margin-top: 0px;
     height: calc(100% + var(--border-size))
+}
+
+.top-bar > .separator {
+    margin-top: calc(var(--border-size) / 2);
 }
 
 .drag-region {
@@ -39,8 +43,8 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-left: 7px;
-    margin-right: 7px;
+    margin-left: 9px;
+    margin-right: 9px;
 }
 
 .buttons-container > * {
@@ -78,6 +82,24 @@ body {
     filter: invert(100%);
 }
 
+.queue-icon {
+    width: 70%;
+    height: 70%;
+    background-image: url("../assets/icons/queue_icon.png");
+    background-position: center;
+    background-size: cover;
+    image-rendering: optimizeQuality;
+    filter: invert(100%);
+}
+
+.separator {
+    width: 3px;
+    height: 100%;
+    background-color: var(--oxford-blue);
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 .window-info-container {
     display: flex;
     flex-direction: row;
@@ -98,10 +120,63 @@ body {
 
 .window-title {
     height: 100%;
-    font-family: 'JetBrainsMonoNL-Bold';
+    font-family: 'MainFont';
     font-size: 16px;
     color: var(--lavender-web);
     margin-left: 5px;
     margin-right: 5px;
     user-select: none;
+}
+
+.task-container {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.clickable-task-button > .task-list {
+    top: 30px;
+    left: unset;
+}
+
+.marquee-bar {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(20, 109, 187);
+    animation: moveLeft 2s linear infinite;
+}
+
+.marquee-bar-container {
+    width: 30px;
+    height: 3px;
+    background-color: rgb(0, 43, 80);
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.clickable-task-button {
+    width: 40px;
+    height: 20px;
+    background-color: var(--rich-black);
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.clickable-task-button > .marquee-bar-container {
+    width: 100%;
+    height: 100%;
+    background-color: var(--oxford-blue);
+    border-radius: 5px;
+}
+
+.clickable-task-button:hover {
+    background-color: var(--oxford-blue);
+    transition: background-color 0.2s;
 }

@@ -31,13 +31,15 @@
     font-size: 16px;
     font-weight: bold;
     color: var(--lavender-web);
-    font-family: 'JetBrainsMonoNL-Bold';
+    font-family: 'MainFont';
+    user-select: none;
 }
 
 .settings-description-text {
     width: 100%;
     font-size: 12px;
     color: var(--lavender-web);
-    font-family: 'JetBrainsMonoNL-Bold';
-    filter: brightness(75%);
+    font-family: 'MainFont';
+    filter: brightness(80%);
+    user-select: none;
 }
