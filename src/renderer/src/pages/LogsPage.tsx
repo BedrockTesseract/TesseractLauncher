@@ -4,6 +4,7 @@ import ResizablePanel from "@renderer/components/ResizablePanel";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import { Logger } from "@renderer/utils/Logger";
 import CircleButton from "@renderer/components/CircleButton";
+import { useReducer } from "react";
 
 function stripFormattingTags(message) {
     // Replace formatting tags (%c, %s, etc.)
@@ -12,6 +13,7 @@ function stripFormattingTags(message) {
 
 export default function LogsPage(): JSX.Element {
     const launcherState = useLauncherState();
+    const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const launcherLogsElements = Logger.getMessages().map((log, index) => {
         let date = new Date(log.timestamp);
         let hours = String(date.getHours()).padStart(2, '0');
@@ -59,7 +61,10 @@ export default function LogsPage(): JSX.Element {
                         Game/Server logs
                     </div>
                 </div>
-                <CircleButton onClick={() => {Logger.clearMessages()}} style={{backgroundColor: "var(--charcoal)", width: "100%", height: "40px", borderRadius: "5px"}}>
+                <CircleButton onClick={() => {
+                    Logger.clearMessages();
+                    forceUpdate();
+                }} style={{backgroundColor: "var(--charcoal)", width: "100%", height: "40px", borderRadius: "5px"}}>
                     <div className="logs-page-switch-text">
                         Clear Logs
                     </div>

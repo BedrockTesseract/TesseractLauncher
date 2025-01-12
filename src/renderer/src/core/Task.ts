@@ -3,6 +3,7 @@ import { ILauncherState } from "@renderer/states/LauncherState";
 export type TaskState = "idle" | "running" | "finished" | "error";
 export type TaskEvent = "start" | "update" | "end" | "error";
 export type TaskCallback = (task: Task) => Promise<void>;
+export type TaskErrorCallback = (task: Task, error: any) => Promise<void>;
 export class Task {
     private _state: TaskState = "idle";
     private _task: TaskCallback = async () => {};
@@ -13,7 +14,7 @@ export class Task {
     private _onTaskStart: TaskCallback[] = [];
     private _onTaskUpdate: TaskCallback[] = [];
     private _onTaskEnd: TaskCallback[] = [];
-    private _onTaskError: TaskCallback[] = [];
+    private _onTaskError: TaskErrorCallback[] = [];
     
     constructor(name: string, description: string, deterministic: boolean = false, task: (task: Task) => Promise<void> = async () => {}) {
         this._state = "idle";
@@ -34,13 +35,13 @@ export class Task {
                 resolve();
             } catch (e) {
                 this._state = "error";
-                this._onTaskError.forEach(async (x) => await x(this));
+                this._onTaskError.forEach(async (x) => await x(this, e));
                 reject();
             }
         });
     }
 
-    addListener(event: TaskEvent, callback: TaskCallback) {
+    addListener(event: TaskEvent, callback: any) {
         switch (event) {
             case "start":
                 this._onTaskStart.push(callback);
@@ -57,7 +58,7 @@ export class Task {
         }
     }
 
-    removeListener(event: TaskEvent, callback: TaskCallback) {
+    removeListener(event: TaskEvent, callback: any) {
         switch (event) {
             case "start":
                 this._onTaskStart = this._onTaskStart.filter((x) => x !== callback);

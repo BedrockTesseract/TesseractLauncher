@@ -1,19 +1,11 @@
-import { forwardRef, useImperativeHandle } from "react";
+import { useErrorPopupState } from "@renderer/states/ErrorPopupState";
+import "./ErrorPopup.css"
 
-interface ErrorPopupProps {
-
-}
-
-export interface ErrorPopupHandle {
-
-}
-
-const ErrorPopup = forwardRef<ErrorPopupHandle, ErrorPopupProps>((props, ref) => {
-    useImperativeHandle(ref, () => ({
-
-    }));
-
+export default function ErrorPopup() {
+    const errorPopupState = useErrorPopupState();
     return (
-        
+        <div className="error-popup" style={{ display: errorPopupState.getVisible() ? "flex" : "none", animation: errorPopupState.getAnimation() }}>
+            {errorPopupState.getCurrentElement()}
+        </div>
     );
-});
+}

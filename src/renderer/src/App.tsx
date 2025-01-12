@@ -4,17 +4,28 @@ import TitleBar from "./components/TitleBar"
 import HomePage from "./pages/HomePage"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import SettingsPage from "./pages/SettingsPage"
-import { LauncherStateProvider } from "./states/LauncherState"
 import VersionsPage from "./pages/VersionsPage"
-import { useTaskListState } from "./states/TaskListState"
-import { Task } from "./core/Task"
-import { useEffect } from "react"
 import LogsPage from "./pages/LogsPage"
-import { Logger } from "./utils/Logger"
+import ErrorPopup from "./components/ErrorPopup"
 import { Version } from "./utils/Version"
+import { Logger } from "./utils/Logger"
+import { Task } from "./core/Task"
+import { VersionList } from "./minecraft/VersionList"
+import { useTaskListState } from "./states/TaskListState"
+import { useEffect } from "react"
 
 function App(): JSX.Element | null {
     const location = useLocation();
+    const taskListState = useTaskListState();
+    useEffect(() => {
+
+        const t = new Task("Downloading minecraft version list...", "From https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min", false, async () => {
+            await VersionList.downloadVersionList();
+        });
+        taskListState.addTask(t);
+        t.addListener("error", async (task: Task, error: any) => { Logger.error(error) });
+        t.run();
+    }, []);
     return (
         <div className="background">
             <TitleBar />
@@ -57,7 +68,7 @@ function App(): JSX.Element | null {
                 <TransitionGroup style={{ width: "100%", height: "100%" }}>
                     <CSSTransition key={location.key} timeout={300} classNames="tpage">
                         <div className="page-area">
-                            <div className="error-popup"/>
+                            <ErrorPopup/>
                             <Routes>
                                 <Route path="/" element={
                                     <HomePage />

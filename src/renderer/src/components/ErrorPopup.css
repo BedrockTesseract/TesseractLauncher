@@ -8,8 +8,11 @@
     overflow-y: auto;
     border-radius: 10px;
     background-color: var(--error-color);
-    animation: popIn 0.4s;
     z-index: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    box-sizing: border-box;
 }
 
 .error-popup-text {
@@ -28,5 +31,16 @@
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@keyframes popOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-40px);
+        opacity: 0;
     }
 }

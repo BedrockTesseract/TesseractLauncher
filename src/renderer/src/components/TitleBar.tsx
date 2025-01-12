@@ -7,6 +7,8 @@ import TaskList from "./TaskList";
 import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
 import { Task } from "@renderer/core/Task";
 import { useTaskListState } from "@renderer/states/TaskListState";
+import Text from "./Text";
+import { LauncherInfo } from "@renderer/utils/LauncherInfo";
 
 export default function TitleBar(): JSX.Element | null {
     const launcherState = useLauncherState();
@@ -60,6 +62,8 @@ export default function TitleBar(): JSX.Element | null {
                 <div className="window-info-container ">
                     <div className="window-icon"/>
                     <div className="window-title">Tesseract</div>
+                    <div style={{width: "7px"}}></div>
+                    <Text style={{filter: "brightness(70%)", fontSize: "12px"}}>{LauncherInfo.version}</Text>
                 </div>
             </div>
             <div className="task-container" onClick={() => setIsTasksVisible(!isTasksVisible)}>
@@ -71,7 +75,6 @@ export default function TitleBar(): JSX.Element | null {
             </div>
             <div className="separator"/>
             <div className="buttons-container">
-                
                 <CircleButton onClick={() => WindowControls.minimize()}>
                     <div className="subtract-icon"/>
                 </CircleButton>
