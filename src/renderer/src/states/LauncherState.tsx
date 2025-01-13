@@ -10,6 +10,7 @@ export interface ILauncherState {
     setShowLauncherLogs: (show: boolean) => void;
     showGameLogs: boolean;
     setShowGameLogs: (show: boolean) => void;
+    getSettings: () => LauncherSettings;
 }
 
 const LauncherStateContext = createContext<ILauncherState | undefined>(undefined);
@@ -24,16 +25,21 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
         setShowGameLogs(launcherSettings.show_game_logs ?? true);
     }, []);
 
-    const [initialized, setInitialized] = useState<boolean>(false);
-    const saveSettings = useCallback(() => {
-        const launcherSettings: LauncherSettings = {
+    const getSettings = () => {
+        return {
             keep_open: keepLauncherOpen,
             show_launcher_logs: showLauncherLogs,
             show_game_logs: showGameLogs,
         };
+    };
 
+    const [initialized, setInitialized] = useState<boolean>(false);
+    const saveSettings = useCallback(() => {
+        const launcherSettings: LauncherSettings = getSettings();
         LauncherCore.setSettings(launcherSettings);
     }, [keepLauncherOpen, showLauncherLogs, showGameLogs]);
+
+    
 
     useEffect(() => {
         if (!initialized) {
@@ -51,7 +57,8 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
             showLauncherLogs,
             setShowLauncherLogs,
             showGameLogs,
-            setShowGameLogs
+            setShowGameLogs,
+            getSettings
         }}>
             {children}
         </LauncherStateContext.Provider>

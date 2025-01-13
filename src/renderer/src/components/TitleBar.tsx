@@ -6,36 +6,34 @@ import { useEffect, useRef, useState } from "react";
 import TaskList from "./TaskList";
 import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
 import { Task } from "@renderer/core/Task";
-import { useTaskListState } from "@renderer/states/TaskListState";
 import Text from "./Text";
 import { LauncherInfo } from "@renderer/utils/LauncherInfo";
 
 export default function TitleBar(): JSX.Element | null {
     const launcherState = useLauncherState();
-    const taskListState = useTaskListState();
     const [isTaskRunning, setIsTaskRunning] = useState<boolean>(false);
     const [isTasksVisible, setIsTasksVisible] = useState<boolean>(false);
 
-    useEffect(() => {
-        const onTaskAny = (task: Task) => {
-            setIsTaskRunning(taskListState.getTaskList().some((x) => x.getState() === "running"));
-        };
+    // useEffect(() => {
+    //     const onTaskAny = (task: Task) => {
+    //         setIsTaskRunning(taskListState.getTaskList().some((x) => x.getState() === "running"));
+    //     };
 
-        taskListState.addListener("add", onTaskAny);
-        taskListState.addListener("remove", onTaskAny);
-        taskListState.addListener("task_start", onTaskAny);
-        taskListState.addListener("task_update", onTaskAny);
-        taskListState.addListener("task_end", onTaskAny);
-        taskListState.addListener("task_error", onTaskAny);
-        return () => {
-            taskListState.removeListener("add", onTaskAny);
-            taskListState.removeListener("remove", onTaskAny);
-            taskListState.removeListener("task_start", onTaskAny);
-            taskListState.removeListener("task_update", onTaskAny);
-            taskListState.removeListener("task_end", onTaskAny);
-            taskListState.removeListener("task_error", onTaskAny);
-        };
-    }, []);
+    //     taskListState.addListener("add", onTaskAny);
+    //     taskListState.addListener("remove", onTaskAny);
+    //     taskListState.addListener("task_start", onTaskAny);
+    //     taskListState.addListener("task_update", onTaskAny);
+    //     taskListState.addListener("task_end", onTaskAny);
+    //     taskListState.addListener("task_error", onTaskAny);
+    //     return () => {
+    //         taskListState.removeListener("add", onTaskAny);
+    //         taskListState.removeListener("remove", onTaskAny);
+    //         taskListState.removeListener("task_start", onTaskAny);
+    //         taskListState.removeListener("task_update", onTaskAny);
+    //         taskListState.removeListener("task_end", onTaskAny);
+    //         taskListState.removeListener("task_error", onTaskAny);
+    //     };
+    // }, []);
 
     // const onAddTask = (task: Task) => {
     //     setIsTaskRunning(taskListState.taskList.some((x) => x.getState() === "running"));

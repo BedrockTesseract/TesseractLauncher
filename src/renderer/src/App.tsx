@@ -11,25 +11,26 @@ import { Version } from "./utils/Version"
 import { Logger } from "./utils/Logger"
 import { Task } from "./core/Task"
 import { VersionList } from "./minecraft/VersionList"
-import { useTaskListState } from "./states/TaskListState"
 import { useEffect } from "react"
+import AsyncTaskOverlay from "./overlays/AsyncTaskOverlay"
+import { useMainTaskQueue } from "./states/MainTaskQueue"
 
 function App(): JSX.Element | null {
     const location = useLocation();
-    const taskListState = useTaskListState();
+    const taskQueue = useMainTaskQueue();
     useEffect(() => {
-
-        const t = new Task("Downloading minecraft version list...", "From https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min", false, async () => {
-            await VersionList.downloadVersionList();
-        });
-        taskListState.addTask(t);
-        t.addListener("error", async (task: Task, error: any) => { Logger.error(error) });
-        t.run();
+        taskQueue.enqueue("Downloading minecraft version list...", "From https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min", async (task) => {
+            task.setProgressName("Downloading version list...");
+            task.setProgressDescription(`From '${VersionList.SOURCE}'`);
+            const versions = await VersionList.getVersions();
+            Logger.trace("Downloaded " + versions.length + " versions");
+        }, undefined, false);
     }, []);
     return (
         <div className="background">
             <TitleBar />
             <div className="content">
+                <AsyncTaskOverlay />
                 <PageBar buttons={
                     [
                         {

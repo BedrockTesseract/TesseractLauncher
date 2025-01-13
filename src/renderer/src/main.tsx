@@ -6,20 +6,20 @@ import App from './App'
 import { BrowserRouter } from 'react-router'
 import { TransitionGroup } from 'react-transition-group'
 import { LauncherStateProvider } from './states/LauncherState'
-import { TaskListStateProvider } from './states/TaskListState'
 import { Logger } from './utils/Logger'
 import ErrorBoundary from './components/ErrorBoundary'
 import ErrorPopup from './components/ErrorPopup'
 import { ErrorPopupStateProvider } from './states/ErrorPopupState'
+import { MainTaskQueueProvider } from './states/MainTaskQueue'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
         <ErrorBoundary>
             <ErrorPopupStateProvider>
                 <LauncherStateProvider>
-                    <TaskListStateProvider>
+                    <MainTaskQueueProvider>
                         <App/>
-                    </TaskListStateProvider>
+                    </MainTaskQueueProvider>
                 </LauncherStateProvider>
             </ErrorPopupStateProvider>
         </ErrorBoundary>

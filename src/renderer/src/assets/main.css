@@ -147,3 +147,12 @@ body {
     filter: blur(20px);
     transition: opacity 300ms, transform 300ms, filter 300ms;
 }
+
+a {
+    color: var(--lavender-web);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #8aa9ff;
+}

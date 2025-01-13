@@ -1,121 +1,135 @@
-import { ILauncherState } from "@renderer/states/LauncherState";
+import { CancellationToken } from './CancellationToken';
 
-export type TaskState = "idle" | "running" | "finished" | "error";
-export type TaskEvent = "start" | "update" | "end" | "error";
-export type TaskCallback = (task: Task) => Promise<void>;
-export type TaskErrorCallback = (task: Task, error: any) => Promise<void>;
+const crypto = require('crypto') as typeof import('crypto');
+
+export type TaskState = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+export type TaskEvent = 'changed_property';
+
 export class Task {
-    private _state: TaskState = "idle";
-    private _task: TaskCallback = async () => {};
-    private _name: string;
-    private _description: string;
-    private _deterministic: boolean;
-    private _progress: number = 0;
-    private _onTaskStart: TaskCallback[] = [];
-    private _onTaskUpdate: TaskCallback[] = [];
-    private _onTaskEnd: TaskCallback[] = [];
-    private _onTaskError: TaskErrorCallback[] = [];
-    
-    constructor(name: string, description: string, deterministic: boolean = false, task: (task: Task) => Promise<void> = async () => {}) {
-        this._state = "idle";
-        this._task = task;
-        this._name = name;
-        this._description = description;
-        this._deterministic = deterministic;
+    private _id: string = crypto.randomUUID();
+    private _name: string = '';
+    private _description: string = '';
+    private _state: TaskState = 'pending';
+    private _token: CancellationToken | null = null;
+    private _task: ((task: Task) => Promise<void>) | null = null;
+    private _onEvent: ((task: Task, state: TaskState | TaskEvent) => void)[] = [];
+    private _result: any = null;
+    private _isDeterministic: boolean = false;
+    private _taskProgressName: string = '';
+    private _taskProgressDescription: string = '';
+    private _taskProgress: number = 0;
+
+    private constructor() {}
+
+    public static create(name: string, description: string, taskFn: (task: Task) => Promise<void>, token: CancellationToken | undefined = undefined, deterministic: boolean = false) {
+        const task = new Task();
+        task._name = name;
+        task._description = description;
+        task._task = taskFn;
+        task._token = token ?? CancellationToken.create(() => {
+            task._state = 'cancelled';
+            task._onEvent.forEach(callback => callback(task, 'cancelled'));
+        });
+        task._taskProgressName = name;
+        task._taskProgressDescription = description;
+        task._isDeterministic = deterministic;
+        return task;
     }
 
-    run() {
-        new Promise<void>(async (resolve, reject) => {
-            this._state = "running";
-            try {
-                this._onTaskStart.forEach(async (x) => await x(this));
-                await this._task(this);
-                this._state = "finished";
-                this._onTaskEnd.forEach(async (x) => await x(this));
-                resolve();
-            } catch (e) {
-                this._state = "error";
-                this._onTaskError.forEach(async (x) => await x(this, e));
-                reject();
+    public run() {
+        if (this._state !== 'pending') {
+            return;
+        }
+
+        this._state = 'running';
+        this._onEvent.forEach(callback => callback(this, 'running'));
+        this._task?.(this).then(() => {
+            if (this._token?.cancelled) {
+                return;
             }
+            this._state = 'completed';
+            this._onEvent.forEach(callback => callback(this, 'completed'));
+        }).catch((e) => {
+            if (this._token?.cancelled) {
+                return;
+            }
+            this._state = 'failed';
+            this._result = e;
+            this._onEvent.forEach(callback => callback(this, 'failed'));
         });
     }
 
-    addListener(event: TaskEvent, callback: any) {
-        switch (event) {
-            case "start":
-                this._onTaskStart.push(callback);
-                break;
-            case "update":
-                this._onTaskUpdate.push(callback);
-                break;
-            case "end":
-                this._onTaskEnd.push(callback);
-                break;
-            case "error":
-                this._onTaskError.push(callback);
-                break;
+    public addListener(callback: (task: Task, state: TaskState | TaskEvent) => void) {
+        this._onEvent.push(callback);
+    }
+
+    public removeListener(callback: (task: Task, state: TaskState | TaskEvent) => void) {
+        const index = this._onEvent.indexOf(callback);
+        if (index !== -1) {
+            this._onEvent.splice(index, 1);
         }
     }
 
-    removeListener(event: TaskEvent, callback: any) {
-        switch (event) {
-            case "start":
-                this._onTaskStart = this._onTaskStart.filter((x) => x !== callback);
-                break;
-            case "update":
-                this._onTaskUpdate = this._onTaskUpdate.filter((x) => x !== callback);
-                break;
-            case "end":
-                this._onTaskEnd = this._onTaskEnd.filter((x) => x !== callback);
-                break;
-            case "error":
-                this._onTaskError = this._onTaskError.filter((x) => x !== callback);
-                break;
-        }
+    public clearListeners() {
+        this._onEvent = [];
     }
 
-    updateTask() {
-        this._onTaskUpdate.forEach(async (x) => await x(this));
+    public get id() {
+        return this._id;
     }
 
-    getState() {
-        return this._state;
-    }
-
-    getName() {
+    public get name() {
         return this._name;
     }
 
-    getDescription() {
+    public get description() {
         return this._description;
     }
 
-    isDeterministic() {
-        return this._deterministic;
+    public get state() {
+        return this._state;
     }
 
-    getProgress() {
-        return this._progress;
+    public get result() {
+        return this._result;
     }
 
-    setName(name: string) {
-        this._name = name;
-        this.updateTask();
+    public get token() {
+        return this._token;
     }
 
-    setDescription(description: string) {
-        this._description = description;
-        this.updateTask();
+    public get isDeterministic() {
+        return this._isDeterministic;
     }
 
-    setDeterministic(deterministic: boolean) {
-        this._deterministic = deterministic;
-        this.updateTask();
+    public get progress() {
+        return this._taskProgress;
     }
 
-    setProgress(progress: number) {
-        this._progress = progress;
-        this.updateTask();
+    public get progressName() {
+        return this._taskProgressName;
     }
-}
+
+    public get progressDescription() {
+        return this._taskProgressDescription;
+    }
+
+    public setProgressName(name: string) {
+        this._taskProgressName = name;
+        this._onEvent.forEach(callback => callback(this, 'changed_property'));
+    }
+
+    public setProgressDescription(description: string) {
+        this._taskProgressDescription = description;
+        this._onEvent.forEach(callback => callback(this, 'changed_property'));
+    }
+
+    public setProgress(progress: number) {
+        this._taskProgress = progress;
+        this._onEvent.forEach(callback => callback(this, 'changed_property'));
+    }
+
+    public cancel() {
+        this._token?.cancel();
+    }
+};
