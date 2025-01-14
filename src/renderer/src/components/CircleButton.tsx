@@ -1,5 +1,5 @@
+import "./styles/CircleButton.css"
 import React from "react";
-import "./CircleButton.css"
 
 interface CircleButtonProps {
     underlyingRef?: React.RefObject<HTMLDivElement>;

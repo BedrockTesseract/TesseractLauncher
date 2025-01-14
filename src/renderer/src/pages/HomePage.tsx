@@ -1,5 +1,5 @@
 import ResizablePanel from "@renderer/components/ResizablePanel";
-import "./HomePage.css"
+import "./styles/HomePage.css"
 import { useEffect } from "react";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import { Task } from "@renderer/core/Task";

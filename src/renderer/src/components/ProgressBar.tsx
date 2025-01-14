@@ -1,5 +1,5 @@
+import "./styles/ProgressBar.css"
 import { forwardRef, useImperativeHandle, useState } from "react";
-import "./ProgressBar.css"
 
 interface ProgressBarProps {
     value?: number,

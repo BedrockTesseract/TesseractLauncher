@@ -1,13 +1,14 @@
+import "./styles/Text.css"
 import { ReactNode } from "react";
-import "./Text.css"
 
 export default function Text(props: {
     children: ReactNode,
-    style?: React.CSSProperties
-} | React.ComponentProps<'div'>): JSX.Element {
-    const { children, ...rest } = props;
+    style?: React.CSSProperties,
+    underlyingRef?: React.LegacyRef<HTMLDivElement>,
+} & React.ComponentProps<'div'>): JSX.Element {
+    const { children, key, underlyingRef, ...rest } = props;
     return (
-        <div className="text-main" {...rest}>
+        <div key={key} className="text-main" ref={underlyingRef} {...rest}>
             {children}
         </div>
     );

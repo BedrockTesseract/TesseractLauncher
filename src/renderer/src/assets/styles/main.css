@@ -23,13 +23,13 @@ body {
 
 @font-face {
     font-family: 'MainFont';
-    src: url('./fonts/jetbrains/JetBrainsMonoNL-Bold.ttf');
+    src: url('../fonts/jetbrains/JetBrainsMonoNL-Bold.ttf');
 }
 
 .home-icon {
     width: 25px;
     height: 25px;
-    background-image: url('./icons/home.png');
+    background-image: url('../icons/home.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -39,7 +39,7 @@ body {
 .settings-icon {
     width: 23px;
     height: 23px;
-    background-image: url('./icons/gear.png');
+    background-image: url('../icons/gear.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -49,7 +49,7 @@ body {
 .instances-icon {
     width: 23px;
     height: 23px;
-    background-image: url('./icons/instances_icon.png');
+    background-image: url('../icons/instances_icon.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -59,7 +59,7 @@ body {
 .versions-icon {
     width: 23px;
     height: 23px;
-    background-image: url('./icons/download_icon.png');
+    background-image: url('../icons/download_icon.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -69,7 +69,7 @@ body {
 .mods-icon {
     width: 23px;
     height: 23px;
-    background-image: url('./icons/mod_icon.png');
+    background-image: url('../icons/mod_icon.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -79,7 +79,17 @@ body {
 .logs-icon {
     width: 23px;
     height: 23px;
-    background-image: url('./icons/logs_icon.png');
+    background-image: url('../icons/logs_icon.png');
+    background-position: center;
+    background-size: cover;
+    image-rendering: optimizeQuality;
+    filter: invert(100%);
+}
+
+.console-icon {
+    width: 23px;
+    height: 23px;
+    background-image: url('../icons/console_icon.png');
     background-position: center;
     background-size: cover;
     image-rendering: optimizeQuality;
@@ -90,7 +100,7 @@ body {
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-image: url('./images/wallpaper_minecraft_warden_2560x1440.png');
+    background-image: url('../images/wallpaper_minecraft_warden_2560x1440.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

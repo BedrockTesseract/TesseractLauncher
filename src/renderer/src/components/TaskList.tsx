@@ -1,7 +1,7 @@
-import { useLauncherState } from "@renderer/states/LauncherState";
-import "./TaskList.css"
-import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
+import "./styles/TaskList.css"
 import { forwardRef, useEffect, useImperativeHandle, useReducer, useRef, useState } from "react";
+import { useLauncherState } from "@renderer/states/LauncherState";
+import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
 import { Task } from "@renderer/core/Task";
 
 interface TaskListProps {

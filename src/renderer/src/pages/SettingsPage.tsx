@@ -1,5 +1,5 @@
 import ResizablePanel from "@renderer/components/ResizablePanel";
-import "./SettingsPage.css"
+import "./styles/SettingsPage.css"
 import Switch from "@renderer/components/Switch";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import Text from "@renderer/components/Text";

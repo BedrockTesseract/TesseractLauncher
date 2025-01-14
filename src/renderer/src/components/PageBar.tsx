@@ -1,5 +1,5 @@
+import "./styles/PageBar.css"
 import { useState } from "react";
-import "./PageBar.css"
 import { useLocation, useNavigate } from "react-router";
 
 export interface PageButton {

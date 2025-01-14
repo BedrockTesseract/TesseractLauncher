@@ -1,4 +1,4 @@
-import "./ResizablePanel.css"
+import "./styles/ResizablePanel.css"
 
 interface ResizablePanelProps {
     children?: JSX.Element | JSX.Element[],

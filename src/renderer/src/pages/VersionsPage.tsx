@@ -1,5 +1,5 @@
 import ResizablePanel from "@renderer/components/ResizablePanel"
-import "./VersionsPage.css"
+import "./styles/VersionsPage.css"
 import CircleButton from "@renderer/components/CircleButton"
 import Text from "@renderer/components/Text"
 import InputBox from "@renderer/components/InputBox"

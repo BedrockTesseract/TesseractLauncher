@@ -5,14 +5,12 @@ import HomePage from "./pages/HomePage"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import SettingsPage from "./pages/SettingsPage"
 import VersionsPage from "./pages/VersionsPage"
-import LogsPage from "./pages/LogsPage"
 import ErrorPopup from "./components/ErrorPopup"
 import AsyncTaskOverlay from "./overlays/AsyncTaskOverlay"
 import { useEffect } from "react"
 import { Logger } from "./utils/Logger"
+import ConsolePage from "./pages/ConsolePage"
 
-for (let i = 0; i < 1000; i++)
-    Logger.trace("Hello, world!", i);
 
 function App(): JSX.Element | null {
     const location = useLocation();
@@ -45,9 +43,9 @@ function App(): JSX.Element | null {
                             route: "/mods"
                         },
                         {
-                            iconNode: <div className="logs-icon" />,
-                            text: "Logs",
-                            route: "/logs"
+                            iconNode: <div className="console-icon" />,
+                            text: "Console",
+                            route: "/console"
                         }
                     ]
                 } lastButton={
@@ -71,8 +69,8 @@ function App(): JSX.Element | null {
                                 <Route path="/settings" element={
                                     <SettingsPage />
                                 } />
-                                <Route path="/logs" element={
-                                    <LogsPage />
+                                <Route path="/console" element={
+                                    <ConsolePage />
                                 } />
                             </Routes>
                         </div>

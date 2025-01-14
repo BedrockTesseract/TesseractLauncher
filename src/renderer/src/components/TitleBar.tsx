@@ -1,13 +1,12 @@
-import { WindowControls } from "@renderer/utils/WindowControls"
-import CircleButton from "./CircleButton"
-import "./TitleBar.css"
-import { useLauncherState } from "@renderer/states/LauncherState"
+import "./styles/TitleBar.css";
 import { useEffect, useRef, useState } from "react";
-import TaskList from "./TaskList";
+import { useLauncherState } from "@renderer/states/LauncherState";
+import { WindowControls } from "@renderer/utils/WindowControls";
 import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
-import { Task } from "@renderer/core/Task";
-import Text from "./Text";
 import { LauncherInfo } from "@renderer/utils/LauncherInfo";
+import CircleButton from "./CircleButton";
+import TaskList from "./TaskList";
+import Text from "./Text";
 
 export default function TitleBar(): JSX.Element | null {
     const launcherState = useLauncherState();

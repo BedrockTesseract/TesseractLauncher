@@ -1,32 +1,76 @@
 import { CollectionView } from "./CollectionView";
 
-export interface ILoggerMessage {
+export interface ILoggerFormatted {
     message: string;
-    level: "trace" | "warn" | "error";
-    timestamp: number;
+    color: string;
+    unformatted: ILoggerMessage;
+}
+
+export type LogLevel = "trace" | "warn" | "error";
+
+export class ILoggerMessage {
+    message: string = "";
+    level: LogLevel = "trace";
+    timestamp: number = 0;
+
+    constructor(message: string, level: LogLevel, timestamp: number) {
+        this.message = message;
+        this.level = level;
+        this.timestamp = timestamp;
+    }
+
+    toFormatted(): ILoggerFormatted {
+        let date = new Date(this.timestamp);
+        let hours = String(date.getHours()).padStart(2, '0');
+        let minutes = String(date.getMinutes()).padStart(2, '0');
+        let seconds = String(date.getSeconds()).padStart(2, '0');
+        let formattedTime = `${hours}:${minutes}:${seconds}`;
+        let color = this.level === "trace" ? "var(--trace-color)" : this.level === "warn" ? "var(--warn-color)" : "var(--error-color)";    
+        return {
+            message: `[${formattedTime}] [Launcher/${this.level}] ${this.message}`,
+            color: color,
+            unformatted: this
+        };
+    }
 }
 
 export class Logger {
-    public static readonly MAX_MESSAGES: number = 1000000;
-    private static _messages: ILoggerMessage[] = Array.from({ length: Logger.MAX_MESSAGES });
-    private static _cursor: number = 0;
-    private static _counter: number = 0;
+    public static readonly MAX_MESSAGES: number = 1000;
+    private static _messages: ILoggerMessage[] = Array.from({ length: Logger.MAX_MESSAGES }, (_, i) => {
+        return new ILoggerMessage(`Test Message ${i}`, "trace", 0);
+    });
+
+    private static _onMessage: ((message: ILoggerMessage) => void)[] = [];
+    static write(level: LogLevel, ...args: any[]) {
+        const message = new ILoggerMessage(args.join(" "), level, Date.now());
+        Logger._messages.push(message);
+        if (Logger._messages.length > Logger.MAX_MESSAGES) {
+            Logger._messages.shift();
+        }
+        this._onMessage.forEach((cb) => cb(message));
+        switch (level) {
+            case "trace":
+                console.log(...args);
+                break;
+            case "warn":
+                console.warn(...args);
+                break;
+            case "error":
+                console.error(...args);
+                break;
+        }
+    }
+
     static trace(...args: any[]) {
-        Logger._messages[Logger.getAndDisplaceCursor()] = { message: args.join(" "), level: "trace", timestamp: Date.now() };
-        Logger._counter++;
-        console.trace(...args);
+        Logger.write("trace", ...args);
     }
 
     static warn(...args: any[]) {
-        Logger._messages[Logger.getAndDisplaceCursor()] = { message: args.join(" "), level: "warn", timestamp: Date.now() };
-        Logger._counter++;
-        console.warn(...args);
+        Logger.write("warn", ...args);
     }
 
     static error(...args: any[]) {
-        Logger._messages[Logger.getAndDisplaceCursor()] = { message: args.join(" "), level: "error", timestamp: Date.now() };
-        Logger._counter++;
-        console.error(...args);
+        Logger.write("error", ...args);
     }
 
     static getMessages() {
@@ -38,17 +82,18 @@ export class Logger {
     }
 
     static getMessagesCount() {
-        return Logger._counter;
+        return Logger._messages.length;
     }
 
-    static clearMessages() {
+    static addMessageListener(callback: (message: ILoggerMessage) => void) {
+        Logger._onMessage.push(callback);
+    }
+
+    static removeMessageListener(callback: (message: ILoggerMessage) => void) {
+        Logger._onMessage = Logger._onMessage.filter((cb) => cb !== callback);
+    }
+
+    static clear() {
         Logger._messages = [];
-    }
-
-    private static getAndDisplaceCursor() {
-        const newCursor = Logger._cursor % Logger.MAX_MESSAGES;
-        Logger._cursor++;
-        if (Logger._cursor >= Logger.MAX_MESSAGES) Logger._cursor = 0;
-        return newCursor;
     }
 }

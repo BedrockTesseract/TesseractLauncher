@@ -1,7 +1,7 @@
-import './assets/main.css'
+import "./assets/styles/main.css"
+import React from 'react'
 
 import "./utils/ExtensionMethods"
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { BrowserRouter } from 'react-router'
@@ -15,14 +15,12 @@ import { MainTaskQueueProvider } from './states/MainTaskQueue'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
-        <ErrorBoundary>
-            <ErrorPopupStateProvider>
-                <LauncherStateProvider>
-                    <MainTaskQueueProvider>
-                        <App/>
-                    </MainTaskQueueProvider>
-                </LauncherStateProvider>
-            </ErrorPopupStateProvider>
-        </ErrorBoundary>
+        <ErrorPopupStateProvider>
+            <LauncherStateProvider>
+                <MainTaskQueueProvider>
+                    <App/>
+                </MainTaskQueueProvider>
+            </LauncherStateProvider>
+        </ErrorPopupStateProvider>
     </BrowserRouter>
 )

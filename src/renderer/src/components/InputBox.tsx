@@ -1,5 +1,5 @@
+import "./styles/InputBox.css"
 import React from "react"
-import "./InputBox.css"
 
 interface InputBoxProps {
 

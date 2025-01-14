@@ -1,8 +1,8 @@
+import "./styles/AsyncTaskOverlay.css"
+import { useEffect, useReducer, useState } from "react";
 import ProgressBar from "@renderer/components/ProgressBar"
-import "./AsyncTaskOverlay.css"
 import Text from "@renderer/components/Text"
 import { useMainTaskQueue } from "@renderer/states/MainTaskQueue"
-import { useEffect, useReducer, useState } from "react";
 import { Task } from "@renderer/core/Task";
 
 export default function AsyncTaskOverlay() {
