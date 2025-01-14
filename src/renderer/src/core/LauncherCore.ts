@@ -15,6 +15,12 @@ export class LauncherCore {
             keep_open: false,
             show_launcher_logs: true,
             show_game_logs: true,
+            show_releases_on_version_list: true,
+            show_previews_on_version_list: true,
+            show_betas_on_version_list: true,
+            show_installed_on_version_list: true,
+            show_server_on_version_list: true,
+            version_string_filter: "",
             ...data
         };
     }

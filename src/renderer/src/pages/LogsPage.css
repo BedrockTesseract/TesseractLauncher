@@ -36,17 +36,10 @@
 }
 
 .console-area {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    border: 2px solid var(--rich-black);
-    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
     overflow-y: auto;
-    overflow-x: hidden;
     box-sizing: border-box;
-    padding: 5px;
 }
 
 .console-item {
@@ -55,19 +48,21 @@
     display: flex;
     flex-direction: column;
     background-color: var(--trace-color);
-    padding: 5px;
-    transition: filter 0.2s;
-    box-sizing: border-box;
+
 }
 
 .console-item-text {
     width: 100%;
+    height: auto;
     font-size: 14px;
     color: var(--lavender-web);
     font-family: 'MainFont';
     user-select: none;
     overflow-wrap: break-word;
     word-break: break-all;
+    white-space: pre-line;
+    display: flex;
+    flex-direction: column;
 }
 
 .console-area > :nth-child(1) {

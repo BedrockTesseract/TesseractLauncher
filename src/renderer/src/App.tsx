@@ -7,25 +7,16 @@ import SettingsPage from "./pages/SettingsPage"
 import VersionsPage from "./pages/VersionsPage"
 import LogsPage from "./pages/LogsPage"
 import ErrorPopup from "./components/ErrorPopup"
-import { Version } from "./utils/Version"
-import { Logger } from "./utils/Logger"
-import { Task } from "./core/Task"
-import { VersionList } from "./minecraft/VersionList"
-import { useEffect } from "react"
 import AsyncTaskOverlay from "./overlays/AsyncTaskOverlay"
-import { useMainTaskQueue } from "./states/MainTaskQueue"
+import { useEffect } from "react"
+import { Logger } from "./utils/Logger"
+
+for (let i = 0; i < 1000; i++)
+    Logger.trace("Hello, world!", i);
 
 function App(): JSX.Element | null {
     const location = useLocation();
-    const taskQueue = useMainTaskQueue();
-    useEffect(() => {
-        taskQueue.enqueue("Downloading minecraft version list...", "From https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min", async (task) => {
-            task.setProgressName("Downloading version list...");
-            task.setProgressDescription(`From '${VersionList.SOURCE}'`);
-            const versions = await VersionList.getVersions();
-            Logger.trace("Downloaded " + versions.length + " versions");
-        }, undefined, false);
-    }, []);
+
     return (
         <div className="background">
             <TitleBar />

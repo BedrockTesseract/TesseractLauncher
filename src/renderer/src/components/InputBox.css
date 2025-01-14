@@ -1,0 +1,14 @@
+.input-box {
+    background-color: var(--oxford-blue);
+    border: 2px solid var(--rich-black);
+    border-radius: 5px;
+    font-family: 'MainFont';
+    color: white;
+    transition: border 0.3s;
+    outline: none;
+    padding: 5px;
+}
+
+.input-box:focus {
+    border: 2px solid var(--charcoal);
+}

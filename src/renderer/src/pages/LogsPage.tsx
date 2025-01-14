@@ -2,65 +2,89 @@ import Switch from "@renderer/components/Switch";
 import "./LogsPage.css"
 import ResizablePanel from "@renderer/components/ResizablePanel";
 import { useLauncherState } from "@renderer/states/LauncherState";
-import { Logger } from "@renderer/utils/Logger";
+import { ILoggerMessage, Logger } from "@renderer/utils/Logger";
 import CircleButton from "@renderer/components/CircleButton";
-import { useReducer } from "react";
-
-function stripFormattingTags(message) {
-    // Replace formatting tags (%c, %s, etc.)
-    return message.replace(/^[a-z-]+:\s*.+;$/i, '');
-  }
+import { ReactNode, RefObject, useCallback, useEffect, useReducer, useRef, useState } from "react";
+import InfiniteLoader from "react-window-infinite-loader";
+import { FixedSizeList, VariableSizeList } from "react-window";
+import { CollectionView } from "@renderer/utils/CollectionView";
+import { start } from "repl";
+import Text from "@renderer/components/Text";
 
 export default function LogsPage(): JSX.Element {
-    const launcherState = useLauncherState();
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
-    const launcherLogsElements = Logger.getMessages().map((log, index) => {
-        let date = new Date(log.timestamp);
-        let hours = String(date.getHours()).padStart(2, '0');
-        let minutes = String(date.getMinutes()).padStart(2, '0');
-        let seconds = String(date.getSeconds()).padStart(2, '0');
-        let formattedTime = `${hours}:${minutes}:${seconds}`;
+    const [loadedItems, setLoadedItems] = useState<Map<number, ILoggerMessage>>(new Map());
+    const launcherState = useLauncherState();
 
-        var separateLines = log.message.split(/\r?\n|\r|\n/g);
+    const isItemLoaded = (index: number) => {
+        return loadedItems.has(Logger.getMessagesCount() - index - 1);
+    };
 
-        let color = "var(--trace-color)";
-        if (log.level === "warn") {
-            color = "var(--warn-color)";
-        } else if (log.level === "error") {
-            color = "var(--error-color)";
+    const loadMoreItems = (startIndex: number, stopIndex: number) => {
+        const oldStartIndex = startIndex;
+        const oldStopIndex = stopIndex;
+
+        const totalMessages = Logger.getMessagesCount();
+        startIndex = Math.max(0, totalMessages - oldStopIndex - 1);
+        stopIndex = Math.max(0, totalMessages - oldStartIndex);
+        if (stopIndex <= startIndex) {
+            return;
         }
 
-        return (
-            {
-                timestamp: log.timestamp,
-                element: (
-                    <div key={`launcher-log-item-${index}`} className="console-item" style={{backgroundColor: color}}>
-                        {separateLines.map((line, index) => {return <div className="console-item-text">{`[${formattedTime}] [Launcher/${log.level}] ${line}`}</div>})}
-                    </div>
-                )
-            }
-        );
-    });
+        const view = Logger.getMessagesRange(startIndex, stopIndex);
+        console.log("Loading items from " + startIndex + " to " + stopIndex);
+        setLoadedItems((prev) => {
+            const newItems = new Map(prev);
+            view.forEach((item, index, trueIndex) => {
+                console.log("View index: " + index + ", true index: " + trueIndex);
+                newItems.set(index + startIndex, item);
+                console.log("Loaded item " + (index + startIndex));
+            });
+            return newItems;
+        });
+    };
 
-    const finalLogElements = [...(launcherState.showLauncherLogs ? launcherLogsElements : [])].sort((a, b) => (a.timestamp - b.timestamp)).map((x) => x.element);
+    const [containerHeight, setContainerHeight] = useState<number>(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (containerRef.current) {
+            setContainerHeight(containerRef.current.clientHeight);
+        }
+    }, [containerRef.current]);
+
     return (
         <div className="logs-page-container">
-            <div className="console-area">
-                {finalLogElements}
+            <div ref={containerRef} style={{width: "100%", height: "100%", display: "flex", flexDirection: "column"}}>
+                <InfiniteLoader
+                    isItemLoaded={isItemLoaded}
+                    itemCount={Logger.getMessagesCount()}
+                    loadMoreItems={loadMoreItems}
+                    minimumBatchSize={1}
+                >
+                    {({onItemsRendered, ref}) => (
+                        <FixedSizeList
+                            height={containerHeight}
+                            itemCount={Logger.getMessagesCount()}
+                            itemSize={20}
+                            onItemsRendered={onItemsRendered}
+                            ref={ref}
+                            width="100%"
+                            itemKey={(index) => index}
+                            overscanCount={20}
+                        >
+                            {({index, style}) => {
+                                console.log(index)
+                                const item = loadedItems.get(Logger.getMessagesCount() - index - 1);
+                                if (item === undefined) return null;
+                                return (
+                                    <Text style={style}>{item.message}</Text>
+                                );
+                            }}
+                        </FixedSizeList>
+                    )}
+                </InfiniteLoader>
             </div>
-            <ResizablePanel style={{width: "100%", height: "auto", flexDirection: "column"}}>
-                <div className="logs-page-switch-group">
-                    <Switch width={40} height={20} checked={launcherState.showLauncherLogs} onChange={(x) => launcherState.setShowLauncherLogs(x)}/>
-                    <div className="logs-page-switch-text">
-                        Launcher logs
-                    </div>
-                </div>
-                <div className="logs-page-switch-group">
-                    <Switch width={40} height={20} checked={launcherState.showGameLogs} onChange={(x) => launcherState.setShowGameLogs(x)}/>
-                    <div className="logs-page-switch-text">
-                        Game/Server logs
-                    </div>
-                </div>
+            <ResizablePanel style={{width: "100%", height: "auto", flexDirection: "column", padding: "10px"}}>
                 <CircleButton onClick={() => {
                     Logger.clearMessages();
                     forceUpdate();

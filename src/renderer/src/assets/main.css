@@ -2,23 +2,23 @@ body {
     display: flex;
     margin: 0;
     padding: 0;
-    --black: #000000ff;
-    --rich-black: #0c1821ff;
-    --oxford-blue: #1b2a41ff;
-    --charcoal: #324a5fff;
-    --lavender-web: #fff;
+    --black: rgb(0, 0, 0);
+    --rich-black: rgb(12, 24, 33);
+    --oxford-blue: rgb(27, 42, 65);
+    --charcoal: rgb(50, 74, 95);
+    --lavender-web: rgb(255, 255, 255);
     --page-bar-width: 160px;
     overflow: hidden;
     background-color: black;
 }
 
 *::-webkit-scrollbar {
-    width: 4px;
+    width: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
     background-color: var(--rich-black);
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 @font-face {

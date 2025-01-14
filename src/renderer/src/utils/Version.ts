@@ -67,4 +67,8 @@ export class Version {
     toString(): string {
         return `${this.major.wildcard ? "*" : this.major.number}.${this.minor.wildcard ? "*" : this.minor.number}.${this.patch.wildcard ? "*" : this.patch.number}.${this.build.wildcard ? "*" : this.build.number}`;
     }
+
+    getNumber(): number {
+        return this.major.number * 1000000 + this.minor.number * 10000 + this.patch.number * 100 + this.build.number;
+    }
 }

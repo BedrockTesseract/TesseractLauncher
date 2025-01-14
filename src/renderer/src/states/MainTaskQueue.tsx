@@ -2,7 +2,7 @@ import { CancellationToken } from "@renderer/core/CancellationToken";
 import { Task } from "@renderer/core/Task";
 import { Logger } from "@renderer/utils/Logger";
 import { Queue } from "@renderer/utils/Queue";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export interface IMainTaskQueue {
     enqueue: (name: string, description: string, taskFn: (task: Task) => Promise<void>, token?: CancellationToken, deterministic?: boolean) => Task;
@@ -19,7 +19,7 @@ export const MainTaskQueueProvider = ({ children }: { children: React.ReactNode 
     const [tasks, setTasks] = useState<Queue<Task>>(new Queue());
     const [running, setRunning] = useState<boolean>(false);
     const [current, setCurrent] = useState<Task | null>(null);
-    useEffect(() => {
+    const update = useCallback(() => {
         if (tasks.length > 0 && !running) {
             const task = tasks.dequeue();
             setTasks(tasks);
@@ -36,13 +36,14 @@ export const MainTaskQueueProvider = ({ children }: { children: React.ReactNode 
                 });
             }
         }
-    });
+    }, [tasks, running, current]);
 
     const enqueue = (name: string, description: string, taskFn: (task: Task) => Promise<void>, token?: CancellationToken, deterministic?: boolean) => {
         const task = Task.create(name, description, taskFn, token, deterministic);
         tasks.enqueue(task);
         setTasks(tasks);
         eventListeners.forEach(callback => callback('enqueued', task));
+        update();
         return task;
     };
 

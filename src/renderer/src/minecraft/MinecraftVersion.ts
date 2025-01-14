@@ -34,6 +34,6 @@ export class MinecraftVersion {
     }
 
     hasServerVersion(): boolean {
-        return this.version.compare(Version.fromString("1.6.1.0")) >= 0;
+        return this.version.compare(Version.fromString("1.6.1.0")) >= 0 && this.type === MinecraftVersionType.Release;
     }
 }

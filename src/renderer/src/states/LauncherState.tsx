@@ -10,6 +10,18 @@ export interface ILauncherState {
     setShowLauncherLogs: (show: boolean) => void;
     showGameLogs: boolean;
     setShowGameLogs: (show: boolean) => void;
+    showReleases: boolean;
+    setShowReleases: (show: boolean) => void;
+    showPreviews: boolean;
+    setShowPreviews: (show: boolean) => void;
+    showBetas: boolean;
+    setShowBetas: (show: boolean) => void;
+    showInstalled: boolean;
+    setShowInstalled: (show: boolean) => void;
+    showServer: boolean;
+    setShowServer: (show: boolean) => void;
+    versionFilterString: string;
+    setVersionFilterString: (filter: string) => void;
     getSettings: () => LauncherSettings;
 }
 
@@ -18,11 +30,23 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
     const [keepLauncherOpen, setKeepLauncherOpen] = useState<boolean>(false);
     const [showLauncherLogs, setShowLauncherLogs] = useState<boolean>(false);
     const [showGameLogs, setShowGameLogs] = useState<boolean>(false);
+    const [showReleases, setShowReleases] = useState<boolean>(true);
+    const [showPreviews, setShowPreviews] = useState<boolean>(true);
+    const [showBetas, setShowBetas] = useState<boolean>(true);
+    const [showInstalled, setShowInstalled] = useState<boolean>(true);
+    const [showServer, setShowServer] = useState<boolean>(true);
+    const [versionFilterString, setVersionFilterString] = useState<string>("");
     useEffect(() => {
         const launcherSettings = LauncherCore.getSettings();
         setKeepLauncherOpen(launcherSettings.keep_open ?? true);
         setShowLauncherLogs(launcherSettings.show_launcher_logs ?? true);
         setShowGameLogs(launcherSettings.show_game_logs ?? true);
+        setShowReleases(launcherSettings.show_releases_on_version_list ?? true);
+        setShowPreviews(launcherSettings.show_previews_on_version_list ?? true);
+        setShowBetas(launcherSettings.show_betas_on_version_list ?? true);
+        setShowInstalled(launcherSettings.show_installed_on_version_list ?? true);
+        setShowServer(launcherSettings.show_server_on_version_list ?? true);
+        setVersionFilterString(launcherSettings.version_string_filter ?? "");
     }, []);
 
     const getSettings = () => {
@@ -30,6 +54,12 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
             keep_open: keepLauncherOpen,
             show_launcher_logs: showLauncherLogs,
             show_game_logs: showGameLogs,
+            show_releases_on_version_list: showReleases,
+            show_previews_on_version_list: showPreviews,
+            show_betas_on_version_list: showBetas,
+            show_installed_on_version_list: showInstalled,
+            show_server_on_version_list: showServer,
+            version_string_filter: versionFilterString
         };
     };
 
@@ -37,7 +67,7 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
     const saveSettings = useCallback(() => {
         const launcherSettings: LauncherSettings = getSettings();
         LauncherCore.setSettings(launcherSettings);
-    }, [keepLauncherOpen, showLauncherLogs, showGameLogs]);
+    }, [keepLauncherOpen, showLauncherLogs, showGameLogs, showReleases, showPreviews, showBetas, showInstalled, showServer, versionFilterString]);
 
     
 
@@ -48,7 +78,7 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
         }
 
         saveSettings();
-    }, [keepLauncherOpen, showLauncherLogs, showGameLogs]);
+    }, [keepLauncherOpen, showLauncherLogs, showGameLogs, showReleases, showPreviews, showBetas, showInstalled, showServer, versionFilterString]);
 
     return (
         <LauncherStateContext.Provider value={{
@@ -58,6 +88,18 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
             setShowLauncherLogs,
             showGameLogs,
             setShowGameLogs,
+            showReleases,
+            setShowReleases,
+            showPreviews,
+            setShowPreviews,
+            showBetas,
+            setShowBetas,
+            showInstalled,
+            setShowInstalled,
+            showServer,
+            setShowServer,
+            versionFilterString,
+            setVersionFilterString,
             getSettings
         }}>
             {children}

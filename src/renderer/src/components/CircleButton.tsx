@@ -2,21 +2,13 @@ import React from "react";
 import "./CircleButton.css"
 
 interface CircleButtonProps {
-    onClick?: () => void, 
-    children?: React.ReactNode,
-    style?: React.CSSProperties
+    underlyingRef?: React.RefObject<HTMLDivElement>;
 };
 
-export default function CircleButton(
-{ 
-    onClick,
-    children,
-    style
-}: CircleButtonProps
+export default function CircleButton(props: CircleButtonProps & React.ComponentProps<'div'>
 ): JSX.Element | null {
+    const {underlyingRef, ...rest} = props;
     return (
-        <div className="circle-btn-container" style={style} onClick={onClick}>
-            {children}
-        </div>
+        <div className="circle-btn-container" ref={underlyingRef} {...rest}/>
     );
 }
