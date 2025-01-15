@@ -2,11 +2,6 @@ body {
     display: flex;
     margin: 0;
     padding: 0;
-    --black: rgb(0, 0, 0);
-    --rich-black: rgb(12, 24, 33);
-    --oxford-blue: rgb(27, 42, 65);
-    --charcoal: rgb(50, 74, 95);
-    --lavender-web: rgb(255, 255, 255);
     --page-bar-width: 160px;
     overflow: hidden;
     background-color: black;

@@ -1,4 +1,4 @@
-import "./styles/Text.css"
+import "./styles/Text.scss"
 import { ReactNode } from "react";
 
 export default function Text(props: {

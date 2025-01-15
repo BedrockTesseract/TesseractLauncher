@@ -1,4 +1,4 @@
-import "./styles/ResizablePanel.css"
+import './styles/ResizablePanel.scss'
 
 interface ResizablePanelProps {
     children?: JSX.Element | JSX.Element[],
@@ -11,7 +11,7 @@ export default function ResizablePanel({
 }: ResizablePanelProps
 ): JSX.Element | null {
     return (
-        <div className="resizable-panel" style={style}>
+        <div className='resizable-panel' style={style}>
             {children}
         </div>
     );

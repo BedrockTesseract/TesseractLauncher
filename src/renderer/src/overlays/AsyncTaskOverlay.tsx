@@ -1,4 +1,4 @@
-import "./styles/AsyncTaskOverlay.css"
+import "./styles/AsyncTaskOverlay.scss"
 import { useEffect, useReducer, useState } from "react";
 import ProgressBar from "@renderer/components/ProgressBar"
 import Text from "@renderer/components/Text"

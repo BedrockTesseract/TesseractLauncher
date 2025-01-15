@@ -1,5 +1,5 @@
-import "./styles/InputBox.css"
-import React from "react"
+import './styles/InputBox.scss'
+import React from 'react'
 
 interface InputBoxProps {
 
@@ -7,7 +7,6 @@ interface InputBoxProps {
 
 export default function InputBox(props: React.ComponentProps<'input'> & InputBoxProps): JSX.Element {
     return (
-        <input type="text" className="input-box" {...props}>
-        </input>
+        <input type='text' className={'input-box'} {...props}/>
     )
 }

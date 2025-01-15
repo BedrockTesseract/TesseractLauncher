@@ -7,8 +7,7 @@
     transition: border 0.3s;
     outline: none;
     padding: 5px;
-}
-
-.input-box:focus {
-    border: 2px solid var(--charcoal);
+    &:focus {
+        border: 2px solid var(--charcoal);
+    }
 }

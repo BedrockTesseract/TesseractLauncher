@@ -1,5 +1,6 @@
 import "./assets/styles/main.css"
-import React from 'react'
+import './assets/styles/colors.scss'
+import React, { StrictMode } from 'react'
 
 import "./utils/ExtensionMethods"
 import ReactDOM from 'react-dom/client'
@@ -12,15 +13,18 @@ import ErrorBoundary from './components/ErrorBoundary'
 import ErrorPopup from './components/ErrorPopup'
 import { ErrorPopupStateProvider } from './states/ErrorPopupState'
 import { MainTaskQueueProvider } from './states/MainTaskQueue'
+import { LauncherColors } from "./utils/LauncherColors"
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <BrowserRouter>
-        <ErrorPopupStateProvider>
-            <LauncherStateProvider>
-                <MainTaskQueueProvider>
-                    <App/>
-                </MainTaskQueueProvider>
-            </LauncherStateProvider>
-        </ErrorPopupStateProvider>
-    </BrowserRouter>
+    <StrictMode>
+        <BrowserRouter>
+            <ErrorPopupStateProvider>
+                <LauncherStateProvider>
+                    <MainTaskQueueProvider>
+                        <App/>
+                    </MainTaskQueueProvider>
+                </LauncherStateProvider>
+            </ErrorPopupStateProvider>
+        </BrowserRouter>
+    </StrictMode>
 )

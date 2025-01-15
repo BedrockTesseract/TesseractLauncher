@@ -1,6 +1,6 @@
-import "./styles/PageBar.css"
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import './styles/PageBar.scss'
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 export interface PageButton {
     iconNode: JSX.Element,
@@ -23,37 +23,37 @@ export default function PageBar({
     const location = useLocation();
     const nodeButtons = buttons?.map((button, index) => {
         return (
-            <div key={`page-selector-button-${index}`} className={`selector-button${location.pathname === button.route ? "-selected" : ""}`} onClick={() => {
+            <div key={`page-selector-button-${index}`} className={'selector-button'} data-selected={location.pathname === button.route} onClick={() => {
                 if (location.pathname === button.route)
                     return;
                 setSelected(index);
                 navigate(button.route);
             }}>
-                <div className="selector-button-items">
+                <div className='selector-button-items'>
                     {button.iconNode}
-                    <div className="selector-button-text">{button.text}</div>
+                    <div className='selector-button-text'>{button.text}</div>
                 </div>
             </div>
         )
     });
 
     const lastButtonNode = lastButton ? (
-        <div key={`page-selector-button-${nodeButtons?.length ?? 0}`} className={`selector-button${location.pathname === lastButton?.route ? "-selected" : ""}`} onClick={() => {
+        <div key={`page-selector-button-${nodeButtons?.length ?? 0}`} className={'selector-button'} data-selected={location.pathname === lastButton.route} onClick={() => {
             if (location.pathname === lastButton.route)
                 return;
             setSelected((nodeButtons?.length ?? 0));
             navigate(lastButton.route);
         }}>
-            <div className="selector-button-items">
+            <div className='selector-button-items'>
                 {lastButton.iconNode}
-                <div className="selector-button-text">{lastButton.text}</div>
+                <div className='selector-button-text'>{lastButton.text}</div>
             </div>
         </div>
     ) : null;
 
     return (
-        <div className="page-bar-main">
-            <div className="page-bar-buttons-container">
+        <div className='page-bar-main'>
+            <div className='selector-buttons'>
                 {nodeButtons}
             </div>
             {lastButtonNode}

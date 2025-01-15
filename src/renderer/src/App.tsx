@@ -10,8 +10,7 @@ import AsyncTaskOverlay from "./overlays/AsyncTaskOverlay"
 import { useEffect } from "react"
 import { Logger } from "./utils/Logger"
 import ConsolePage from "./pages/ConsolePage"
-
-
+import { useMainTaskQueue } from "./states/MainTaskQueue"
 function App(): JSX.Element | null {
     const location = useLocation();
 

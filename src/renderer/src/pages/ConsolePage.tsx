@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useReducer, useRef } from "react";
 import Text from "@renderer/components/Text";
 import { UUID } from "@renderer/utils/UUID";
 import ResizablePanel from "@renderer/components/ResizablePanel";
-import CircleButton from "@renderer/components/CircleButton";
+import Button from "@renderer/components/Button";
 
 const ConsolePage: React.FC = (): ReactNode => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -59,12 +59,12 @@ const ConsolePage: React.FC = (): ReactNode => {
                 {parsedMessages}
             </div>
             <ResizablePanel style={{height: "auto", padding: "10px"}}>
-                <CircleButton style={{width: "100%", height: "50px", borderRadius: "5px", backgroundColor: "var(--charcoal)"}} onClick={() => {
+                <Button style={{width: "100%", height: "50px", borderRadius: "5px", backgroundColor: "var(--charcoal)"}} onClick={() => {
                     Logger.clear();
                     forceUpdate();
                 }}>
                     <Text>Clear Console</Text>
-                </CircleButton>
+                </Button>
             </ResizablePanel>
         </div>
     );

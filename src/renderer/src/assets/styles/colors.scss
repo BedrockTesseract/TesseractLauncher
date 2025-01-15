@@ -1,0 +1,19 @@
+$black: rgb(0, 0, 0);
+$richBlack: rgb(12, 24, 33);
+$oxfordBlue: rgb(27, 42, 65);
+$charcoal: rgb(50, 74, 95);
+$lavenderWeb: rgb(255, 255, 255);
+$darkerBlue: #18263A;
+$trueColor: #32a852;
+$falseColor: #a83232;
+
+:root {
+    --black: #{$black};
+    --rich-black: #{$richBlack};
+    --oxford-blue: #{$oxfordBlue};
+    --charcoal: #{$charcoal};
+    --lavender-web: #{$lavenderWeb};
+    --darker-blue: #{$darkerBlue};
+    --true-color: #{$trueColor};
+    --false-color: #{$falseColor};
+}

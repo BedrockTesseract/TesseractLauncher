@@ -1,5 +1,5 @@
-import { useState } from "react";
-import * as ReactSwitch from "react-switch";
+import { useState } from 'react';
+import * as ReactSwitch from 'react-switch';
 
 export default function Switch(
     {
@@ -24,10 +24,10 @@ export default function Switch(
             checked={isChecked}
             uncheckedIcon={false}
             checkedIcon={false}
-            onColor="#324a5f"
-            offColor="#324a5f"
-            onHandleColor="#32a852"
-            offHandleColor="#a83232"
+            onColor='#324a5f'
+            offColor='#324a5f'
+            onHandleColor='#32a852'
+            offHandleColor='#a83232'
             width={width}
             height={height}
             handleDiameter={height - 2}>

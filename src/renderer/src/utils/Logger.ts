@@ -36,9 +36,7 @@ export class ILoggerMessage {
 
 export class Logger {
     public static readonly MAX_MESSAGES: number = 1000;
-    private static _messages: ILoggerMessage[] = Array.from({ length: Logger.MAX_MESSAGES }, (_, i) => {
-        return new ILoggerMessage(`Test Message ${i}`, "trace", 0);
-    });
+    private static _messages: ILoggerMessage[] = Array.from({ length: Logger.MAX_MESSAGES });
 
     private static _onMessage: ((message: ILoggerMessage) => void)[] = [];
     static write(level: LogLevel, ...args: any[]) {

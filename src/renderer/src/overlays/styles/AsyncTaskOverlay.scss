@@ -9,8 +9,7 @@
     background-color: #0000009f;
     border-radius: 10px;
     z-index: 4;
-}
-
-.async-task-overlay > * {
-    margin: 5px;
+    > * {
+        margin: 5px;
+    }
 }

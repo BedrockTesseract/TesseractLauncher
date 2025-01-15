@@ -1,4 +1,4 @@
-import "./styles/TaskList.css"
+import "./styles/TaskList.scss"
 import { forwardRef, useEffect, useImperativeHandle, useReducer, useRef, useState } from "react";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import ProgressBar, { ProgressBarHandle } from "./ProgressBar";

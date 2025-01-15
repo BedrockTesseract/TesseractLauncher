@@ -1,10 +1,10 @@
-import "./styles/TitleBar.css";
+import "./styles/TitleBar.scss";
 import { useEffect, useRef, useState } from "react";
 import { useLauncherState } from "@renderer/states/LauncherState";
 import { WindowControls } from "@renderer/utils/WindowControls";
 import ProgressBar, { ProgressBarHandle } from "./ProgressBar";
 import { LauncherInfo } from "@renderer/utils/LauncherInfo";
-import CircleButton from "./CircleButton";
+import Button from "./Button";
 import TaskList from "./TaskList";
 import Text from "./Text";
 
@@ -72,15 +72,15 @@ export default function TitleBar(): JSX.Element | null {
             </div>
             <div className="separator"/>
             <div className="buttons-container">
-                <CircleButton onClick={() => WindowControls.minimize()}>
+                <Button onClick={() => WindowControls.minimize()}>
                     <div className="subtract-icon"/>
-                </CircleButton>
-                <CircleButton onClick={() => WindowControls.maximize()}>
+                </Button>
+                <Button onClick={() => WindowControls.maximize()}>
                     <div className="maximize-icon"/>
-                </CircleButton>
-                <CircleButton onClick={() => WindowControls.close()} style={{backgroundColor: "#FF0000"}}>
+                </Button>
+                <Button onClick={() => WindowControls.close()} style={{backgroundColor: "#FF0000"}}>
                     <div className="close-icon"/>
-                </CircleButton>
+                </Button>
             </div>
         </div>
     )

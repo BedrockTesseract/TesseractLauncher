@@ -1,6 +1,6 @@
 import ResizablePanel from "@renderer/components/ResizablePanel"
 import "./styles/VersionsPage.css"
-import CircleButton from "@renderer/components/CircleButton"
+import Button from "@renderer/components/Button"
 import Text from "@renderer/components/Text"
 import InputBox from "@renderer/components/InputBox"
 import { useEffect, useRef, useState } from "react"
@@ -10,6 +10,7 @@ import { VersionList } from "@renderer/minecraft/VersionList"
 import { Logger } from "@renderer/utils/Logger"
 import { useMainTaskQueue } from "@renderer/states/MainTaskQueue"
 import { MinecraftVersion, MinecraftVersionType } from "@renderer/minecraft/MinecraftVersion"
+import { UUID } from "@renderer/utils/UUID"
 
 interface ParsedVersion { name: string, uuid: string, type: string };
 export default function VersionsPage(
@@ -65,6 +66,45 @@ export default function VersionsPage(
         }, undefined, false);
     }, [versions]);
 
+    const notDownloadedButtonElements = [
+        <Button key={UUID.create()} style={{
+            width: "35px", 
+            height: "35px", 
+            borderRadius: 0, 
+            backgroundColor: "var(--true-color)", 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center"
+        }}>
+            <div className="download-icon"/>
+        </Button>
+    ];
+
+    const downloadedButtonElements = [
+        <Button key={UUID.create()} style={{
+            width: "35px", 
+            height: "35px", 
+            borderRadius: 0, 
+            backgroundColor: "var(--charcoal)", 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center"
+        }}>
+            <div className="folder-icon"/>
+        </Button>,
+        <Button key={UUID.create()} style={{
+            width: "35px", 
+            height: "35px", 
+            borderRadius: 0, 
+            backgroundColor: "var(--false-color)", 
+            display: "flex", 
+            justifyContent: "center", 
+            alignItems: "center"
+        }}>
+            <div className="trash-icon"/>
+        </Button>
+    ];
+
     const versionElements = parsedVersions.filter((version) => {
         if (launcherState.showReleases && version.type === "Release") return true;
         if (launcherState.showPreviews && version.type === "Preview") return true;
@@ -75,18 +115,25 @@ export default function VersionsPage(
     }).filter((version) => {
         if (launcherState.versionFilterString === "") return true;
         return version.name.includes(launcherState.versionFilterString);
-    }).map((version) => {
+    }).map((version, i) => {
         return (
             <div key={version.uuid} className="version-card">
-                <Text style={{fontSize: "16px" }}>
-                    {`${version.name}`}
-                </Text>
-                <Text style={{fontSize: "12px", filter: "brightness(0.65)" }}>
-                    {version.uuid}
-                </Text>
-                <Text style={{fontSize: "12px", filter: "brightness(0.65)" }}>
-                    {version.type}
-                </Text>
+                <div style={{ width: "100%", height: "auto", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                    <div style={{ width: "auto", height: "auto", display: "flex", flexDirection: "column" }}>
+                        <Text style={{fontSize: "16px" }}>
+                            {`${version.name}`}
+                        </Text>
+                        <Text style={{fontSize: "12px", filter: "brightness(0.65)" }}>
+                            {version.uuid}
+                        </Text>
+                        <Text style={{fontSize: "12px", filter: "brightness(0.65)" }}>
+                            {version.type}
+                        </Text>
+                    </div>
+                    <div className="version-card-buttons">
+                        {[...notDownloadedButtonElements, ...downloadedButtonElements]}
+                    </div>
+                </div>
             </div>
         );
     });
@@ -95,20 +142,20 @@ export default function VersionsPage(
         <div className="versions-page">
             <ResizablePanel style={{ width: "100%", height: "auto", padding: "10px", boxSizing: "border-box", justifyContent: "space-between" }}>
                 <div style={{ width: "auto", height: "auto", display: "flex", alignItems: "top", justifyContent: "left", position: "relative" }}>
-                    <CircleButton style={{ 
+                    <Button style={{ 
                         width: "auto", 
                         height: "auto", 
                         borderRadius: "7.5px", 
                         backgroundColor: "var(--charcoal)", 
                         padding: "7.5px",
-                        border: "2px solid var(--rich-black)",
+                        border: `2px solid ${"var(--rich-black)"}`,
                         borderBottomLeftRadius: showAllFilters ? "0px" : "7.5px",
                         borderBottomRightRadius: showAllFilters ? "0px" : "7.5px",
                     }} onClick={() => {
                         setShowAllFilters(!showAllFilters);
-                    }} underlyingRef={filtersButtonRef}>
+                    }} innerRef={filtersButtonRef}>
                         <Text style={{fontSize: "12px"}}>Show all filters</Text>
-                    </CircleButton>
+                    </Button>
                     <ResizablePanel style={{ 
                         display: showAllFilters ? "flex" : "none", 
                         transform: `translateY(${showAllFiltersButtonHeight + 2}px)`, 

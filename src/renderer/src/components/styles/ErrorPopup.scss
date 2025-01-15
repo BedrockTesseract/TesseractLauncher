@@ -15,14 +15,6 @@
     box-sizing: border-box;
 }
 
-.error-popup-text {
-    font-size: 14px;
-    color: var(--lavender-web);
-    font-family: 'MainFont';
-    user-select: none;
-    padding: 5px;
-}
-
 @keyframes popIn {
     from {
         transform: translateY(-40px);
