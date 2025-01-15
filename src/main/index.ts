@@ -79,16 +79,16 @@ app.on('window-all-closed', () => {
   }
 })
 
-// In this file you can include the rest of your app"s specific main process
+// In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on("WINDOW_SIGNAL", (event, arg) => {
+ipcMain.on('WINDOW_SIGNAL', (event, arg) => {
     switch (arg) {
-        case "close":
+        case 'close':
             mainWindow?.close();
             break;
 
-        case "maximize":
+        case 'maximize':
             if (mainWindow?.isMaximized()) {
                 mainWindow?.unmaximize();
             } else {
@@ -96,7 +96,7 @@ ipcMain.on("WINDOW_SIGNAL", (event, arg) => {
             }
             break;
 
-        case "minimize":
+        case 'minimize':
             mainWindow?.minimize();
             break;
     }

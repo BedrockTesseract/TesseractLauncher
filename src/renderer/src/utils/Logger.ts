@@ -1,4 +1,4 @@
-import { CollectionView } from "./CollectionView";
+import { CollectionView } from './CollectionView';
 
 export interface ILoggerFormatted {
     message: string;
@@ -6,11 +6,11 @@ export interface ILoggerFormatted {
     unformatted: ILoggerMessage;
 }
 
-export type LogLevel = "trace" | "warn" | "error";
+export type LogLevel = 'trace' | 'warn' | 'error';
 
 export class ILoggerMessage {
-    message: string = "";
-    level: LogLevel = "trace";
+    message: string = '';
+    level: LogLevel = 'trace';
     timestamp: number = 0;
 
     constructor(message: string, level: LogLevel, timestamp: number) {
@@ -25,7 +25,7 @@ export class ILoggerMessage {
         let minutes = String(date.getMinutes()).padStart(2, '0');
         let seconds = String(date.getSeconds()).padStart(2, '0');
         let formattedTime = `${hours}:${minutes}:${seconds}`;
-        let color = this.level === "trace" ? "var(--trace-color)" : this.level === "warn" ? "var(--warn-color)" : "var(--error-color)";    
+        let color = this.level === 'trace' ? 'var(--trace-color)' : this.level === 'warn' ? 'var(--warn-color)' : 'var(--error-color)';    
         return {
             message: `[${formattedTime}] [Launcher/${this.level}] ${this.message}`,
             color: color,
@@ -40,35 +40,35 @@ export class Logger {
 
     private static _onMessage: ((message: ILoggerMessage) => void)[] = [];
     static write(level: LogLevel, ...args: any[]) {
-        const message = new ILoggerMessage(args.join(" "), level, Date.now());
+        const message = new ILoggerMessage(args.join(' '), level, Date.now());
         Logger._messages.push(message);
         if (Logger._messages.length > Logger.MAX_MESSAGES) {
             Logger._messages.shift();
         }
         this._onMessage.forEach((cb) => cb(message));
         switch (level) {
-            case "trace":
+            case 'trace':
                 console.log(...args);
                 break;
-            case "warn":
+            case 'warn':
                 console.warn(...args);
                 break;
-            case "error":
+            case 'error':
                 console.error(...args);
                 break;
         }
     }
 
     static trace(...args: any[]) {
-        Logger.write("trace", ...args);
+        Logger.write('trace', ...args);
     }
 
     static warn(...args: any[]) {
-        Logger.write("warn", ...args);
+        Logger.write('warn', ...args);
     }
 
     static error(...args: any[]) {
-        Logger.write("error", ...args);
+        Logger.write('error', ...args);
     }
 
     static getMessages() {

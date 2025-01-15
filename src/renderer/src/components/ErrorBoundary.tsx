@@ -1,5 +1,5 @@
-import { Logger } from "@renderer/utils/Logger";
-import { Component, ReactNode, useEffect, useState } from "react";
+import { Logger } from '@renderer/utils/Logger';
+import { Component, ReactNode, useEffect, useState } from 'react';
 
 export default class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
     constructor(props: { children: ReactNode }) {

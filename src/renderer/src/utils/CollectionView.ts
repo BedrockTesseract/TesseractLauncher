@@ -42,7 +42,7 @@ export class CollectionView<T> {
 
     public get(index: number): T {
         if (index >= this._items.length || index < 0)
-            throw new Error("Index out of bounds");
+            throw new Error('Index out of bounds');
         return this._items[index];
     }
 
@@ -70,11 +70,11 @@ export class CollectionView<T> {
         if (end === undefined)
             end = array.length - 1;
         if (start !== undefined && (start >= array.length || start < 0))
-            throw new Error("Start index out of bounds");
+            throw new Error('Start index out of bounds');
         if (end !== undefined && (end - 1 >= array.length || end <= 0))
-            throw new Error("End index out of bounds");
+            throw new Error('End index out of bounds');
         if (start > end) {
-            throw new Error("Start index cannot be greater than end index");
+            throw new Error('Start index cannot be greater than end index');
         }
     }
 

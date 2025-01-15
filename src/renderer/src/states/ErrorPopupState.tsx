@@ -1,6 +1,6 @@
-import Text from "@renderer/components/Text";
-import { Logger } from "@renderer/utils/Logger";
-import { ReactNode, useContext, useState, createContext } from "react";
+import Text from '@renderer/components/Text';
+import { Logger } from '@renderer/utils/Logger';
+import { ReactNode, useContext, useState, createContext } from 'react';
 
 export interface IErrorPopupState {
     setAnimation: (animation: string) => void;
@@ -17,15 +17,15 @@ export interface IErrorPopupState {
 const ErrorPopupStateContext = createContext<IErrorPopupState | undefined>(undefined);
 export const ErrorPopupStateProvider = ({children}: { children: ReactNode }) => {    
     const [visible, setVisible] = useState(false);
-    const [animation, setAnimation] = useState("popIn 0.4s backwards");
+    const [animation, setAnimation] = useState('popIn 0.4s backwards');
     const [currentElement, setCurrentElement] = useState<ReactNode | null>(null);
 
     const show = async (animate: boolean = true, hideTimeout: number = -1) => {
         if (animate) {
-            setAnimation("popIn 0.4s forwards");
+            setAnimation('popIn 0.4s forwards');
             await new Promise(resolve => setTimeout(resolve, 400));
         } else {
-            setAnimation("none");
+            setAnimation('none');
         }
         setVisible(true);
         if (hideTimeout > 0) {
@@ -35,10 +35,10 @@ export const ErrorPopupStateProvider = ({children}: { children: ReactNode }) => 
 
     const hide = async (animate: boolean = true) => {
         if (animate) {
-            setAnimation("popOut 0.4s forwards");
+            setAnimation('popOut 0.4s forwards');
             await new Promise(resolve => setTimeout(resolve, 400));
         } else {
-            setAnimation("none");
+            setAnimation('none');
         }
         setVisible(false);
     };
@@ -75,7 +75,7 @@ export const ErrorPopupStateProvider = ({children}: { children: ReactNode }) => 
 export function useErrorPopupState() {
     const context = useContext(ErrorPopupStateContext);
     if (!context) {
-        throw new Error("useErrorPopupState must be used within a ErrorPopupStateProvider");
+        throw new Error('useErrorPopupState must be used within a ErrorPopupStateProvider');
     }
     return context;
 }

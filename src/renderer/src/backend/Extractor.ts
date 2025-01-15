@@ -39,7 +39,7 @@ export class Extractor {
           if (excludes.find(str => str === filename)) continue
           await fs.promises.mkdir(path.dirname(filePath), { recursive: true })
         } catch (fileError) {
-          console.error(`Error creating dir "${filename}":`, fileError)
+          console.error(`Error creating dir '${filename}':`, fileError)
         }
       }
 
@@ -56,7 +56,7 @@ export class Extractor {
           extracted += 1
           onProgress(extracted, allFiles, filename)
         } catch (fileError) {
-          console.error(`Error extracting file "${filename}":`, fileError)
+          console.error(`Error extracting file '${filename}':`, fileError)
         }
       }
 

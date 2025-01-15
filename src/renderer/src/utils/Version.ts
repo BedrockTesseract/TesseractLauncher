@@ -4,8 +4,8 @@ export interface VersionComponent {
 }
 
 export class Version {
-    static readonly zero = "0.0.0.0";
-    static readonly wild = "*.*.*.*";
+    static readonly zero = '0.0.0.0';
+    static readonly wild = '*.*.*.*';
 
     major: VersionComponent;
     minor: VersionComponent;
@@ -28,7 +28,7 @@ export class Version {
             minor = { number: 0, wildcard: false },
             patch = { number: 0, wildcard: false },
             build = { number: 0, wildcard: false }
-        ] = version.split(".").map(v => (v === "*" ? { number: 0, wildcard: true } : { number: parseInt(v), wildcard: false }));
+        ] = version.split('.').map(v => (v === '*' ? { number: 0, wildcard: true } : { number: parseInt(v), wildcard: false }));
         return new Version(major, minor, patch, build);
     }
 
@@ -65,7 +65,7 @@ export class Version {
     }
 
     toString(): string {
-        return `${this.major.wildcard ? "*" : this.major.number}.${this.minor.wildcard ? "*" : this.minor.number}.${this.patch.wildcard ? "*" : this.patch.number}.${this.build.wildcard ? "*" : this.build.number}`;
+        return `${this.major.wildcard ? '*' : this.major.number}.${this.minor.wildcard ? '*' : this.minor.number}.${this.patch.wildcard ? '*' : this.patch.number}.${this.build.wildcard ? '*' : this.build.number}`;
     }
 
     getNumber(): number {

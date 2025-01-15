@@ -1,7 +1,7 @@
-import { LauncherCore } from "@renderer/core/LauncherCore";
-import LauncherSettings from "@renderer/core/LauncherSettings";
-import { Task } from "@renderer/core/Task";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { LauncherCore } from '@renderer/core/LauncherCore';
+import LauncherSettings from '@renderer/core/LauncherSettings';
+import { Task } from '@renderer/core/Task';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface ILauncherState {
     keepLauncherOpen: boolean;
@@ -35,7 +35,7 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
     const [showBetas, setShowBetas] = useState<boolean>(true);
     const [showInstalled, setShowInstalled] = useState<boolean>(true);
     const [showServer, setShowServer] = useState<boolean>(true);
-    const [versionFilterString, setVersionFilterString] = useState<string>("");
+    const [versionFilterString, setVersionFilterString] = useState<string>('');
     useEffect(() => {
         const launcherSettings = LauncherCore.getSettings();
         setKeepLauncherOpen(launcherSettings.keep_open ?? true);
@@ -46,7 +46,7 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
         setShowBetas(launcherSettings.show_betas_on_version_list ?? true);
         setShowInstalled(launcherSettings.show_installed_on_version_list ?? true);
         setShowServer(launcherSettings.show_server_on_version_list ?? true);
-        setVersionFilterString(launcherSettings.version_string_filter ?? "");
+        setVersionFilterString(launcherSettings.version_string_filter ?? '');
     }, []);
 
     const getSettings = () => {
@@ -110,7 +110,7 @@ export const LauncherStateProvider = ({children}: { children: ReactNode }) => {
 export function useLauncherState() {
     const context = useContext(LauncherStateContext);
     if (!context) {
-        throw new Error("useLauncherState must be used within a LauncherStateProvider");
+        throw new Error('useLauncherState must be used within a LauncherStateProvider');
     }
     return context;
 }

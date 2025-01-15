@@ -2,18 +2,23 @@ body {
     display: flex;
     margin: 0;
     padding: 0;
-    --page-bar-width: 160px;
     overflow: hidden;
     background-color: black;
 }
 
-*::-webkit-scrollbar {
-    width: 8px;
+:root {
+    --page-bar-width: 160px;
 }
 
-*::-webkit-scrollbar-thumb {
-    background-color: var(--rich-black);
-    border-radius: 8px;
+* {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--rich-black);
+        border-radius: 8px;
+    }
 }
 
 @font-face {
@@ -22,8 +27,8 @@ body {
 }
 
 .home-icon {
-    width: 25px;
-    height: 25px;
+    width: 23px;
+    height: 23px;
     background-image: url('../icons/home.png');
     background-position: center;
     background-size: cover;
@@ -111,10 +116,9 @@ body {
     padding: 5px;
     box-sizing: border-box;
     justify-content: space-between;
-}
-
-.content > .page-bar-main {
-    margin-right: 5px;
+    & > .page-bar-main {
+        margin-right: 5px;
+    }
 }
 
 .page-area {
@@ -127,37 +131,38 @@ body {
     box-sizing: border-box;
 }
 
-.tpage-enter {
-    opacity: 0;
-    transform: translateY(40px);
-    filter: blur(20px);
-}
+.tpage {
+    &-enter {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: blur(20px);
+    }
 
-.tpage-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-    transition: opacity 300ms, transform 300ms, filter 300ms;
-}
+    &-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+        transition: opacity 300ms, transform 300ms, filter 300ms;
+    }
 
-.tpage-exit {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-}
+    &-exit {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
 
-.tpage-exit-active {
-    opacity: 0;
-    transform: translateY(40px);
-    filter: blur(20px);
-    transition: opacity 300ms, transform 300ms, filter 300ms;
+    &-exit-active {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: blur(20px);
+        transition: opacity 300ms, transform 300ms, filter 300ms;
+    }
 }
 
 a {
     color: var(--lavender-web);
     transition: color 0.2s;
-}
-
-a:hover {
-    color: #8aa9ff;
+    &:hover {
+        color: #8aa9ff;
+    }
 }

@@ -1,8 +1,8 @@
-import { CancellationToken } from "@renderer/core/CancellationToken";
-import { Task } from "@renderer/core/Task";
-import { Logger } from "@renderer/utils/Logger";
-import { Queue } from "@renderer/utils/Queue";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { CancellationToken } from '@renderer/core/CancellationToken';
+import { Task } from '@renderer/core/Task';
+import { Logger } from '@renderer/utils/Logger';
+import { Queue } from '@renderer/utils/Queue';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface IMainTaskQueue {
     enqueue: (name: string, description: string, taskFn: (task: Task) => Promise<void>, token?: CancellationToken, deterministic?: boolean) => Task;
@@ -68,7 +68,7 @@ export const MainTaskQueueProvider = ({ children }: { children: React.ReactNode 
 export function useMainTaskQueue() {
     const context = useContext(MainTaskQueueContext);
     if (!context) {
-        throw new Error("useMainTaskQueue must be used within a MainTaskQueueProvider");
+        throw new Error('useMainTaskQueue must be used within a MainTaskQueueProvider');
     }
     return context;
 }

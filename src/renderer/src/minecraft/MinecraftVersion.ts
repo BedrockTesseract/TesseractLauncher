@@ -1,4 +1,4 @@
-import { Version } from "@renderer/utils/Version";
+import { Version } from '@renderer/utils/Version';
 
 export enum MinecraftVersionType {
     Release = 0,
@@ -18,11 +18,11 @@ export class MinecraftVersion {
     }
 
     public static fromClearObject(obj: any): MinecraftVersion {
-        if ("version" in obj && "type" in obj && "uuid" in obj) {
+        if ('version' in obj && 'type' in obj && 'uuid' in obj) {
             return new MinecraftVersion(Version.fromString(obj.version), obj.type, obj.uuid);
         }
 
-        throw new Error("Invalid object missing members");
+        throw new Error('Invalid object missing members');
     }
 
     public toClearObject(): any {
@@ -34,6 +34,6 @@ export class MinecraftVersion {
     }
 
     hasServerVersion(): boolean {
-        return this.version.compare(Version.fromString("1.6.1.0")) >= 0 && this.type === MinecraftVersionType.Release;
+        return this.version.compare(Version.fromString('1.6.1.0')) >= 0 && this.type === MinecraftVersionType.Release;
     }
 }

@@ -1,4 +1,4 @@
-import { CollectionView } from "./CollectionView";
+import { CollectionView } from './CollectionView';
 
 export class CircularBuffer<T> {
     private buffer: (T | undefined)[];
@@ -8,7 +8,7 @@ export class CircularBuffer<T> {
 
     constructor(private readonly capacity: number) {
         if (capacity <= 0) {
-            throw new Error("Capacity must be greater than 0");
+            throw new Error('Capacity must be greater than 0');
         }
         this.buffer = new Array(capacity);
     }
@@ -71,11 +71,11 @@ export class CircularBuffer<T> {
         if (end === undefined)
             end = this.size;
         if (start !== undefined && (start >= this.size || start < 0))
-            throw new Error("Start index out of bounds");
+            throw new Error('Start index out of bounds');
         if (end !== undefined && (end - 1 >= this.size || end <= 0))
-            throw new Error("End index out of bounds");
+            throw new Error('End index out of bounds');
         if (start > end) {
-            throw new Error("Start index cannot be greater than end index");
+            throw new Error('Start index cannot be greater than end index');
         }
     }
 }

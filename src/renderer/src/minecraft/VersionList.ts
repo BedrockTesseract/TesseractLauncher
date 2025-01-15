@@ -1,11 +1,11 @@
-import { CACHED_VERSIONS_FILE } from "@renderer/utils/GlobalPaths";
-import { MinecraftVersion } from "./MinecraftVersion";
-import { Logger } from "@renderer/utils/Logger";
-import { Version } from "@renderer/utils/Version";
+import { CACHED_VERSIONS_FILE } from '@renderer/utils/GlobalPaths';
+import { MinecraftVersion } from './MinecraftVersion';
+import { Logger } from '@renderer/utils/Logger';
+import { Version } from '@renderer/utils/Version';
 const fs = window.require('fs') as typeof import('fs')
 
 export class VersionList {
-    public static readonly SOURCE = "https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min";
+    public static readonly SOURCE = 'https://raw.githubusercontent.com/BedrockTesseract/Launcher-Data/refs/heads/main/versions.json.min';
     private static _versions: MinecraftVersion[] = [];
     private static _firstTime: boolean = true;
     static async getVersions() {

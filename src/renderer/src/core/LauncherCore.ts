@@ -1,5 +1,5 @@
-import { LAUNCHER_PATH } from "@renderer/utils/GlobalPaths";
-import LauncherSettings from "./LauncherSettings";
+import { LAUNCHER_PATH } from '@renderer/utils/GlobalPaths';
+import LauncherSettings from './LauncherSettings';
 const fs = window.require('fs') as typeof import('fs');
 
 export class LauncherCore {
@@ -20,7 +20,7 @@ export class LauncherCore {
             show_betas_on_version_list: true,
             show_installed_on_version_list: true,
             show_server_on_version_list: true,
-            version_string_filter: "",
+            version_string_filter: '',
             ...data
         };
     }
