@@ -2,7 +2,7 @@ import './styles/HomePage.scss'
 import ResizablePanel from '@renderer/components/ResizablePanel';
 import { useEffect } from 'react';
 import { useLauncherState } from '@renderer/states/LauncherState';
-import { Task } from '@renderer/core/Task';
+import { Task } from '@renderer/core/async/Task';
 
 export default function HomePage(): JSX.Element | null {
     const launcherState = useLauncherState();

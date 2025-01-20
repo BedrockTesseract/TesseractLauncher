@@ -1,5 +1,5 @@
 import './styles/TitleBar.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLauncherState } from '@renderer/states/LauncherState';
 import { WindowControls } from '@renderer/utils/WindowControls';
 import ProgressBar, { ProgressBarHandle } from './ProgressBar';
@@ -7,51 +7,29 @@ import { LauncherInfo } from '@renderer/utils/LauncherInfo';
 import Button from './Button';
 import TaskList from './TaskList';
 import Text from './Text';
+import { BackgroundRunner } from '@renderer/core/async/BackgroundRunner';
+import { Task } from '@renderer/core/async/Task';
 
 export default function TitleBar(): JSX.Element | null {
-    const launcherState = useLauncherState();
     const [isTaskRunning, setIsTaskRunning] = useState<boolean>(false);
     const [isTasksVisible, setIsTasksVisible] = useState<boolean>(false);
+    const handleAnyRunnerEvent = useCallback((...args: any[]) => {
+        setIsTaskRunning(BackgroundRunner.isRunningAny());
+    }, []);
 
-    // useEffect(() => {
-    //     const onTaskAny = (task: Task) => {
-    //         setIsTaskRunning(taskListState.getTaskList().some((x) => x.getState() === 'running'));
-    //     };
-
-    //     taskListState.addListener('add', onTaskAny);
-    //     taskListState.addListener('remove', onTaskAny);
-    //     taskListState.addListener('task_start', onTaskAny);
-    //     taskListState.addListener('task_update', onTaskAny);
-    //     taskListState.addListener('task_end', onTaskAny);
-    //     taskListState.addListener('task_error', onTaskAny);
-    //     return () => {
-    //         taskListState.removeListener('add', onTaskAny);
-    //         taskListState.removeListener('remove', onTaskAny);
-    //         taskListState.removeListener('task_start', onTaskAny);
-    //         taskListState.removeListener('task_update', onTaskAny);
-    //         taskListState.removeListener('task_end', onTaskAny);
-    //         taskListState.removeListener('task_error', onTaskAny);
-    //     };
-    // }, []);
-
-    // const onAddTask = (task: Task) => {
-    //     setIsTaskRunning(taskListState.taskList.some((x) => x.getState() === 'running'));
-    //     console.log('added task', taskListState.taskList);
-    // };
-
-    // const onRemoveTask = (task: Task) => {
-    //     setIsTaskRunning(taskListState.taskList.some((x) => x.getState() === 'running'));
-    //     console.log('removed task', taskListState.taskList);
-    // };
-
-    // useEffect(() => {
-    //     taskListState.addListener('add', onAddTask);
-    //     taskListState.addListener('remove', onRemoveTask);
-    //     return () => {
-    //         taskListState.removeListener('add', onAddTask);
-    //         taskListState.removeListener('remove', onRemoveTask);
-    //     };
-    // }, []);
+    useEffect(() => {
+        BackgroundRunner.on('added', handleAnyRunnerEvent);
+        BackgroundRunner.on('started', handleAnyRunnerEvent);
+        BackgroundRunner.on('finished', handleAnyRunnerEvent);
+        BackgroundRunner.on('removed', handleAnyRunnerEvent);
+        handleAnyRunnerEvent();
+        return () => {
+            BackgroundRunner.off('added', handleAnyRunnerEvent);
+            BackgroundRunner.off('started', handleAnyRunnerEvent);
+            BackgroundRunner.off('finished', handleAnyRunnerEvent);
+            BackgroundRunner.off('removed', handleAnyRunnerEvent);
+        };
+    }, []);
 
     return (
         <div className='top-bar'>
@@ -68,7 +46,6 @@ export default function TitleBar(): JSX.Element | null {
                     {isTaskRunning ? <ProgressBar marquee={true}/> : null}
                     <TaskList visible={isTasksVisible}/>
                 </div>
-                
             </div>
             <div className='separator'/>
             <div className='buttons-container'>

@@ -7,13 +7,23 @@ import SettingsPage from './pages/SettingsPage'
 import VersionsPage from './pages/VersionsPage'
 import ErrorPopup from './components/ErrorPopup'
 import AsyncTaskOverlay from './overlays/AsyncTaskOverlay'
-import { useEffect } from 'react'
-import { Logger } from './utils/Logger'
 import ConsolePage from './pages/ConsolePage'
-import { useMainTaskQueue } from './states/MainTaskQueue'
+import { useEffect } from 'react'
+import TaskQueue from './core/async/TaskQueue'
+import { Task } from './core/async/Task'
+import { VersionManager } from './minecraft/VersionManager'
+import { MinecraftVersion, MinecraftVersionType } from './minecraft/MinecraftVersion'
+import { Version } from './utils/Version'
+import DownloadedVersion from './minecraft/DownloadedVersion'
+
 function App(): JSX.Element | null {
     const location = useLocation();
-
+    useEffect(() => {
+        TaskQueue.enqueue(Task.create<void>(async () => {
+            await VersionManager.loadDownloadedVersions();
+        }, 'Loading downloaded versions...', '', false));
+    }, []);
+    
     return (
         <div className='background'>
             <TitleBar />

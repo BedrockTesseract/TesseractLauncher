@@ -12,16 +12,14 @@ import { Logger } from './utils/Logger'
 import ErrorBoundary from './components/ErrorBoundary'
 import ErrorPopup from './components/ErrorPopup'
 import { ErrorPopupStateProvider } from './states/ErrorPopupState'
-import { MainTaskQueueProvider } from './states/MainTaskQueue'
 import { LauncherColors } from './utils/LauncherColors'
+import { VersionManager } from './minecraft/VersionManager'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
         <ErrorPopupStateProvider>
             <LauncherStateProvider>
-                <MainTaskQueueProvider>
-                    <App/>
-                </MainTaskQueueProvider>
+                <App/>
             </LauncherStateProvider>
         </ErrorPopupStateProvider>
     </BrowserRouter>

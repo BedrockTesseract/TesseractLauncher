@@ -7,6 +7,7 @@ export class Queue<T> {
 
     public enqueue(item: T) {
         this._items.push(item);
+        return this;
     }
 
     public dequeue(): T | undefined {
@@ -43,6 +44,10 @@ export class Queue<T> {
 
     public find(callback: (item: T, index: number) => boolean): T | undefined {
         return this._items.find(callback);
+    }
+
+    public isEmpty(): boolean {
+        return this._items.length === 0;
     }
 
     static fromArray<T>(array: T[]): Queue<T> {

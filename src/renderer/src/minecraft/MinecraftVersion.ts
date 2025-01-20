@@ -17,7 +17,7 @@ export class MinecraftVersion {
         this.uuid = uuid;
     }
 
-    public static fromClearObject(obj: any): MinecraftVersion {
+    public static fromClearObject(obj: ReturnType<MinecraftVersion["toClearObject"]>): MinecraftVersion {
         if ('version' in obj && 'type' in obj && 'uuid' in obj) {
             return new MinecraftVersion(Version.fromString(obj.version), obj.type, obj.uuid);
         }
@@ -25,7 +25,7 @@ export class MinecraftVersion {
         throw new Error('Invalid object missing members');
     }
 
-    public toClearObject(): any {
+    public toClearObject() {
         return {
             version: this.version.toString(),
             type: this.type,

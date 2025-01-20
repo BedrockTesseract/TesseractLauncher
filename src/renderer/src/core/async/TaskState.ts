@@ -1,0 +1,1 @@
+export type TaskState = 'pending' | 'running' | 'completed' | 'failed';

@@ -1,6 +1,6 @@
 import { LauncherCore } from '@renderer/core/LauncherCore';
 import LauncherSettings from '@renderer/core/LauncherSettings';
-import { Task } from '@renderer/core/Task';
+import { Task } from '@renderer/core/async/Task';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface ILauncherState {

@@ -1,0 +1,1 @@
+export type OmitFirst<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;

@@ -1,8 +1,10 @@
 import './styles/TaskList.scss'
-import { forwardRef, useEffect, useImperativeHandle, useReducer, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useReducer, useRef, useState } from 'react';
 import { useLauncherState } from '@renderer/states/LauncherState';
 import ProgressBar, { ProgressBarHandle } from './ProgressBar';
-import { Task } from '@renderer/core/Task';
+import { Task } from '@renderer/core/async/Task';
+import { BackgroundRunner } from '@renderer/core/async/BackgroundRunner';
+import { TaskStateHandle } from '@renderer/core/async/TaskStateHandle';
 
 interface TaskListProps {
     visible?: boolean
@@ -12,47 +14,58 @@ export default function TaskList({
     visible 
 }: TaskListProps
 ): JSX.Element {
-    const launcherState = useLauncherState();
-    const [, forceUpdate] = useReducer((x) => x + 1, 0);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const handleAnyEvent = useCallback((...args: any[]) => {
+        forceUpdate();
+    }, []);
 
-    // useEffect(() => {
-    //     const onTaskAny = (task: Task) => {
-    //         forceUpdate();
-    //     };
+    const handleTaskStatePropertyChanged = useCallback((handle: TaskStateHandle, property: string) => {
+        handleAnyEvent();
+    }, []);
 
-    //     taskListState.addListener('add', onTaskAny);
-    //     taskListState.addListener('remove', onTaskAny);
-    //     taskListState.addListener('task_start', onTaskAny);
-    //     taskListState.addListener('task_update', onTaskAny);
-    //     taskListState.addListener('task_end', onTaskAny);
-    //     taskListState.addListener('task_error', onTaskAny);
-    //     return () => {
-    //         taskListState.removeListener('add', onTaskAny);
-    //         taskListState.removeListener('remove', onTaskAny);
-    //         taskListState.removeListener('task_start', onTaskAny);
-    //         taskListState.removeListener('task_update', onTaskAny);
-    //         taskListState.removeListener('task_end', onTaskAny);
-    //         taskListState.removeListener('task_error', onTaskAny);
-    //     };
-    // }, []);
+    const handleTaskAdded = useCallback((task: Task<any>) => {
+        task.state.on('propertyChanged', handleTaskStatePropertyChanged);
+        handleAnyEvent();
+    }, []);
 
-    // const elements = taskListState.getTaskList().map((task, index) => {
-    //     if (task.getState() !== 'running')
-    //         return null;
+    const handleTaskRemoved = useCallback((task: Task<any>) => {
+        task.state.off('propertyChanged', handleTaskStatePropertyChanged);
+        handleAnyEvent();
+    }, []);
 
-    //     return (
-    //         <div key={`task-item-${0}`} className='task-item'>
-    //             <div className='task-item-name'>{task.getName()}</div>
-    //             <div className='task-item-desc'>{task.getDescription()}</div>
-    //             {task.isDeterministic() ? <div style={{ width: '100%', display: 'flex', justifyContent: 'right' }}><div className='task-item-percent'>{Math.floor(task.getProgress() * 100)}%</div></div> : null}
-    //             <ProgressBar value={task.getProgress()} width={'100%'} height={'5px'} marquee={!task.isDeterministic()} style={{ marginTop: '7.5px', backgroundColor: 'var(--rich-black)' }}/>
-    //         </div>
-    //     );
-    // }).filter((x) => x !== null);
+    useEffect(() => {
+        BackgroundRunner.on('added', handleTaskAdded);
+        BackgroundRunner.on('started', handleAnyEvent);
+        BackgroundRunner.on('finished', handleAnyEvent);
+        BackgroundRunner.on('removed', handleTaskRemoved);
+        BackgroundRunner.getTasks().forEach(task => task.state.on('propertyChanged', handleTaskStatePropertyChanged));
+        forceUpdate();
+        return () => {
+            BackgroundRunner.off('added', handleTaskAdded);
+            BackgroundRunner.off('started', handleAnyEvent);
+            BackgroundRunner.off('finished', handleAnyEvent);
+            BackgroundRunner.off('removed', handleTaskRemoved);
+            BackgroundRunner.getTasks().forEach(task => task.state.off('propertyChanged', handleTaskStatePropertyChanged));
+        };
+    }, []);
+
+    const elements = BackgroundRunner.getTasks().map((task, index) => {
+        if (task.state.taskState !== 'running')
+            return null;
+
+        return (
+            <div key={`task-item-${index}`} className='task-item'>
+                <div className='task-item-name'>{task.state.progressName}</div>
+                <div className='task-item-desc'>{task.state.progressMessage}</div>
+                {!task.state.progressMarquee ? <div style={{ width: '100%', display: 'flex', justifyContent: 'right' }}><div className='task-item-percent'>{Math.floor(task.state.progressValue * 100)}%</div></div> : null}
+                <ProgressBar value={task.state.progressValue} width={'100%'} height={'5px'} marquee={task.state.progressMarquee} style={{ marginTop: '7.5px', backgroundColor: 'var(--rich-black)' }}/>
+            </div>
+        );
+    }).filter((x) => x !== null);
 
     return (
         <div className='task-list' style={{display: visible ? 'block' : 'none'}}>
-            
+            {elements}
         </div>
     );
 };
